@@ -4,4 +4,7 @@
     <string name="menu">Menu</string>
     <string name="order">Order</string>
     <string name="click_on_the_menu_button_to_see_the_delicious_options_we_offer">Click on the menu button to see the delicious options we offer!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close">Close</string>
 </resources>

@@ -13,7 +13,7 @@
         android:theme="@style/Theme.RUPizzeriaAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".MenuActivity"
+            android:name=".OrderActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
