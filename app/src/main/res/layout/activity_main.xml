@@ -5,15 +5,92 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0E5D5"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginTop="50dp"
+        android:fontFamily="casual"
+        android:text="@string/ru_pizzeria"
+        android:textColor="#974C4C"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <ImageView
+        android:id="@+id/papa"
+        android:layout_width="240dp"
+        android:layout_height="253dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speechBubble"
+        app:srcCompat="@drawable/papapizzeria_processed_processed" />
+
+    <ImageView
+        android:id="@+id/speechBubble"
+        android:layout_width="169dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="-170dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/papa"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/speechbubble_processed" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="109dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="-135dp"
+        android:layout_marginTop="-130dp"
+        android:gravity="center"
+        android:text="@string/click_on_the_menu_button_to_see_the_delicious_options_we_offer"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/papa"
+        app:layout_constraintTop_toBottomOf="@+id/speechBubble" />
+
+    <Button
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="160dp"
+        android:backgroundTint="#974C4C"
+        android:shadowColor="#974C4C"
+        android:text="@string/menu"
+        android:textColorHighlight="#673AB7"
+        android:textColorHint="#FFC107"
+        android:textColorLink="#BC7474"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/papa"
+        app:rippleColor="#974C4C"
+        app:strokeColor="#974C4C" />
+
+    <Button
+        android:id="@+id/orderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="160dp"
+        android:backgroundTint="#974C4C"
+        android:text="@string/order"
+        android:textColorLink="#974C4C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
