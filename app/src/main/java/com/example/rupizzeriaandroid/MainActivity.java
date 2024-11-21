@@ -31,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "menuDialog");
         });
 
+        Button btnShowOrder = findViewById(R.id.orderButton);
+        btnShowOrder.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OrderActivity.class);
+            startActivity(intent);
+        });
+
     }
 
 }
