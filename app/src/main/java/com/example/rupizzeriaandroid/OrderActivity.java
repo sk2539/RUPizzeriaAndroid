@@ -1,9 +1,12 @@
 package com.example.rupizzeriaandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -60,6 +63,13 @@ public class OrderActivity extends AppCompatActivity {
         // Add listeners to both spinners
         typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
         pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+
+        ImageButton imageButton = findViewById(R.id.homeButton); // Make sure this matches your XML id
+        imageButton.setOnClickListener(v -> {
+            // Start the new activity
+            Intent intent = new Intent(OrderActivity.this, MainActivity.class); // Replace NewActivity with your target activity
+            startActivity(intent);
+        });
     }
 
     /**
@@ -70,11 +80,13 @@ public class OrderActivity extends AppCompatActivity {
         int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
 
         if (typePosition == 0) { // No pizza style selected
+            pizzaImageView.setImageDrawable(null);
             Toast.makeText(this, "Please select a pizza style", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (pizzaPosition == 0) { // No pizza type selected
+            pizzaImageView.setImageDrawable(null);
             Toast.makeText(this, "Please select a pizza type", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -96,6 +108,7 @@ public class OrderActivity extends AppCompatActivity {
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.buildyourownpizza : R.drawable.buildyourownpizza);
                 break;
             default:
+                pizzaImageView.setImageDrawable(null);
                 break;
         }
     }
@@ -118,4 +131,6 @@ public class OrderActivity extends AppCompatActivity {
             }
         };
     }
+
+
 }

@@ -8,6 +8,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="close">Close</string>
     <string name="order_page">Order Page</string>
+    <string name="size">Size:</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+
 
     <string-array name="dropdown_items">
         <item>Chicago Pizza</item>
