@@ -127,13 +127,14 @@ public abstract class Pizza {
                 : String.join(", ", getToppings().stream()
                 .map(Topping::toString)
                 .toArray(String[]::new));
-
-        String pizzaType = switch (getCrust()) {
-            case Crust.DEEPDISH, Crust.PAN, Crust.STUFFED -> "Chicago Pizza";
-            case Crust.BROOKLYN, Crust.THIN, Crust.HANDTOSSED -> "New York Pizza";
-            default -> "Unknown Pizza Type";
-        };
-
+        String pizzaType;
+        if (getCrust() == Crust.DEEPDISH || getCrust() == Crust.PAN || getCrust() == Crust.STUFFED) {
+            pizzaType = "Chicago Pizza";
+        } else if (getCrust() == Crust.BROOKLYN || getCrust() == Crust.THIN || getCrust() == Crust.HANDTOSSED) {
+            pizzaType = "New York Pizza";
+        } else {
+            pizzaType = "Unknown Pizza Type";
+        }
         return String.format("%s [Size=%s, Crust=%s, Toppings=%s]",
                 pizzaType,
                 getSize().toString(),
