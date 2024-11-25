@@ -56,7 +56,6 @@ public class OrderActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
-
         pizzaSpinner = findViewById(R.id.choosePizzaType);
         String[] pizzaTypeOptions = {"Choose an option", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
 
@@ -67,20 +66,16 @@ public class OrderActivity extends AppCompatActivity {
         );
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pizzaSpinner.setAdapter(adapter2);
-
         pizzaImageView = findViewById(R.id.mainImage);
-
         typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
         pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
-
         ImageButton imageButton = findViewById(R.id.homeButton);
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrderActivity.this, MainActivity.class);
             startActivity(intent);
         });
-
         ChipGroup chipGroup = findViewById(R.id.toppings);
-
+        chipGroup.setEnabled(false);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
             chip.setOnClickListener(view -> {
@@ -88,12 +83,10 @@ public class OrderActivity extends AppCompatActivity {
                     showMaxToppingsAlert();
                     return;
                 }
-
                 if (!chip.isSelected()) {
                     numberOfToppings++;
                     chip.setSelected(true);
                     toppings.add(getToppingSelected(chip.getText().toString()));
-                    // Set the background color and text color when selected
                     chip.setChipBackgroundColorResource(R.color.maroon);
                     chip.setTextColor(Color.WHITE);
                     Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
@@ -177,25 +170,108 @@ public class OrderActivity extends AppCompatActivity {
 
         boolean isChicagoStyle = (typePosition == 1); // Chicago is at index 1
 
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+
         // Update the image based on the current selections
         switch (pizzaPosition) {
             case 1: // Deluxe
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagodeluxepizza : R.drawable.nydeluxe);
+                clearAllSelections();
+                disableChips(false);
+                selectTopping(Topping.SAUSAGE);
+                toppings.add(Topping.SAUSAGE);
+                selectTopping(Topping.PEPPERONI);
+                toppings.add(Topping.PEPPERONI);
+                selectTopping(Topping.GREENPEPPER);
+                toppings.add(Topping.GREENPEPPER);
+                selectTopping(Topping.ONION);
+                toppings.add(Topping.ONION);
+                selectTopping(Topping.MUSHROOM);
+                toppings.add(Topping.MUSHROOM);
                 break;
             case 2: // BBQ Chicken
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagobbqchicken : R.drawable.nybbqchicken);
+                clearAllSelections();
+                disableChips(false);
+                selectTopping(Topping.BBQCHICKEN);
+                toppings.add(Topping.BBQCHICKEN);
+                selectTopping(Topping.GREENPEPPER);
+                toppings.add(Topping.GREENPEPPER);
+                selectTopping(Topping.PROVOLONE);
+                toppings.add(Topping.PROVOLONE);
+                selectTopping(Topping.CHEDDAR);
+                toppings.add(Topping.CHEDDAR);
                 break;
             case 3: // Meatzza
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagomeatzza : R.drawable.nymeattza);
+                clearAllSelections();
+                disableChips(false);
+                selectTopping(Topping.SAUSAGE);
+                toppings.add(Topping.SAUSAGE);
+                toppings.add(Topping.PEPPERONI);
+                selectTopping(Topping.GREENPEPPER);
+                selectTopping(Topping.BEEF);
+                toppings.add(Topping.BEEF);
+                selectTopping(Topping.HAM);
+                toppings.add(Topping.HAM);
                 break;
             case 4: // Build Your Own
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.buildyourownpizza : R.drawable.buildyourownpizza);
+                enableChips(true);
+                clearAllSelections();
                 break;
             default:
                 pizzaImageView.setImageDrawable(null);
                 break;
         }
+        chipGroup.setEnabled(false);
     }
+
+    private void disableChips(boolean enable) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setEnabled(enable);
+        }
+    }
+
+    private void enableChips(boolean enable) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setEnabled(enable);
+        }
+    }
+
+    private void clearAllSelections() {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setSelected(false);
+            chip.setChipBackgroundColorResource(R.color.darkbeige);
+            chip.setTextColor(Color.BLACK);
+        }
+
+        // Clear the toppings list
+        toppings.clear();
+        numberOfToppings = 0;
+        Log.d("Toppings", "Cleared all selections: " + toppings.toString());
+    }
+
+
+    private void selectTopping(Topping topping) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        toppings.add(topping);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            if (chip.getText().toString().equalsIgnoreCase(topping.name())) {
+                chip.setSelected(true);
+                chip.setChipBackgroundColorResource(R.color.maroon);
+                chip.setTextColor(Color.WHITE);
+            }
+        }
+    }
+
 
     /**
      * Creates a listener for both spinners to trigger image updates.
