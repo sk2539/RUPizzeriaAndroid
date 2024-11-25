@@ -14,10 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="7dp"
         android:layout_marginEnd="303dp"
         android:text="@string/toppings"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/toppings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,11 +30,13 @@
         android:layout_marginStart="171dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="166dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="casual"
         android:text="@string/order_page"
         android:textColor="#974C4C"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/choosePizzaType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,47 +44,47 @@
 
 
     <Spinner
-        android:id="@+id/chooseType"
-        android:layout_width="166dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="21dp"
-        android:backgroundTint="#974C4C"
-        app:layout_constraintEnd_toStartOf="@+id/choosePizzaType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-
-    <Spinner
         android:id="@+id/choosePizzaType"
         android:layout_width="166dp"
         android:layout_height="29dp"
         android:layout_marginStart="21dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="612dp"
+        android:layout_marginBottom="13dp"
         android:backgroundTint="#974C4C"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chooseType"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/shoppingCart" />
 
+    <Spinner
+        android:id="@+id/chooseType"
+        android:layout_width="166dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#974C4C"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toStartOf="@+id/choosePizzaType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <ImageView
         android:id="@+id/mainImage"
         android:layout_width="250dp"
         android:layout_height="187.5dp"
         android:layout_margin="16dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="-20dp"
-        android:layout_marginEnd="145dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="3dp"
         android:background="#EDDDC6"
         android:src="@null"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupSize" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
     <ImageButton
@@ -92,65 +94,78 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="340dp"
+        android:layout_marginBottom="3dp"
         android:backgroundTint="#F0E5D5"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/chooseType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/homebuttonprocessed" />
+
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="350dp"
         android:text="@string/size"
         android:textColorLink="#260505"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupSize"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseType" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
     <RadioGroup
         android:id="@+id/radioGroupSize"
-        android:layout_width="316dp"
-        android:layout_height="62dp"
+        android:layout_width="340dp"
+        android:layout_height="59dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="33dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/mainImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
 
-        <RadioButton
-            android:id="@+id/radioButtonSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/small"
-            android:layout_marginEnd="40dp"
-            android:gravity="center" />
-
-
-        <RadioButton
-            android:id="@+id/radioButtonMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medium"
-            android:layout_marginEnd="40dp"
-            android:gravity="center" />
-
-
-        <RadioButton
-            android:id="@+id/radioButtonLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/large"
-            android:gravity="center" />
     </RadioGroup>
 
+    <RadioButton
+        android:id="@+id/radioButtonSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/small"
+        app:layout_constraintEnd_toStartOf="@+id/radioButtonMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/radioGroupSize"  />
+
+    <RadioButton
+        android:id="@+id/radioButtonMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/medium"
+        app:layout_constraintEnd_toStartOf="@+id/radioButtonLarge"
+        app:layout_constraintStart_toEndOf="@+id/radioButtonSmall"
+        app:layout_constraintTop_toTopOf="@+id/radioGroupSize" />
+
+    <RadioButton
+        android:id="@+id/radioButtonLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioButtonMedium"
+        app:layout_constraintTop_toTopOf="@+id/radioGroupSize"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pricePriceInput"
@@ -159,14 +174,13 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="13dp"
         android:background="#EDDDC6"
         android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/toppings">
-
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
     <Button
         android:id="@+id/button3"
@@ -174,8 +188,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="250dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#974C4C"
         android:text="@string/add_to_order"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -188,7 +204,9 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="29dp"
         android:text="@string/pizza_price"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pricePriceInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toppings" />
@@ -197,6 +215,7 @@
         android:id="@+id/toppings"
         android:layout_width="406dp"
         android:layout_height="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
@@ -365,13 +384,46 @@
         android:id="@+id/shoppingCart"
         android:layout_width="59dp"
         android:layout_height="56dp"
-        android:layout_marginStart="356dp"
+        android:layout_marginStart="78dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="1dp"
         android:backgroundTint="#F0E5D5"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/choosePizzaType"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/shoppingcart" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Crust type: "
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseType" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="263dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/choosePizzaType">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="252dp"
+            android:layout_height="27dp"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

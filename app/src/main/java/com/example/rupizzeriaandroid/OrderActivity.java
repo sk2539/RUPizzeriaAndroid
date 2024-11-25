@@ -34,20 +34,20 @@ public class OrderActivity extends AppCompatActivity {
 
     private int numberOfToppings = 0;
 
+
+    // shorten this method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         typeSpinner = findViewById(R.id.chooseType);
-        String[] orderOptions = {"Choose an option", "Chicago Pizza", "New York Pizza"};
+        String[] orderOptions = {"Select pizza style", "Chicago Pizza", "New York Pizza"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -57,7 +57,7 @@ public class OrderActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
         pizzaSpinner = findViewById(R.id.choosePizzaType);
-        String[] pizzaTypeOptions = {"Choose an option", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
+        String[] pizzaTypeOptions = {"Select pizza type", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
                 this,
@@ -100,8 +100,6 @@ public class OrderActivity extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
     private void showMaxToppingsAlert() {
