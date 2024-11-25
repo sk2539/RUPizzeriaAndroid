@@ -84,6 +84,161 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+    <ImageView
+        android:id="@+id/beefLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/broccoliLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/cheddarLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/chickenLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/greenPepperLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/hamLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/jalapenoLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/mushroomLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/onionLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/pepperoniLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/provoloneLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/sausageLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
+
+    <ImageView
+        android:id="@+id/spinachLayer"
+        android:layout_width="250dp"
+        android:layout_height="187.5dp"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:src="@null"
+        app:layout_constraintBottom_toBottomOf="@id/mainImage"
+        app:layout_constraintEnd_toEndOf="@id/mainImage"
+        app:layout_constraintStart_toStartOf="@id/mainImage"
+        app:layout_constraintTop_toTopOf="@id/mainImage" />
 
     <ImageButton
         android:id="@+id/homeButton"
@@ -132,41 +287,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
+        <RadioButton
+            android:id="@+id/radioButtonSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/small"
+            app:layout_constraintEnd_toStartOf="@+id/radioButtonMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/radioGroupSize"  />
+
+        <RadioButton
+            android:id="@+id/radioButtonMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/medium"
+            app:layout_constraintEnd_toStartOf="@+id/radioButtonLarge"
+            app:layout_constraintStart_toEndOf="@+id/radioButtonSmall"
+            app:layout_constraintTop_toTopOf="@+id/radioGroupSize" />
+
+        <RadioButton
+            android:id="@+id/radioButtonLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/radioButtonMedium"
+            app:layout_constraintTop_toTopOf="@+id/radioGroupSize"/>
 
     </RadioGroup>
 
-    <RadioButton
-        android:id="@+id/radioButtonSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/small"
-        app:layout_constraintEnd_toStartOf="@+id/radioButtonMedium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radioGroupSize"  />
-
-    <RadioButton
-        android:id="@+id/radioButtonMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/medium"
-        app:layout_constraintEnd_toStartOf="@+id/radioButtonLarge"
-        app:layout_constraintStart_toEndOf="@+id/radioButtonSmall"
-        app:layout_constraintTop_toTopOf="@+id/radioGroupSize" />
-
-    <RadioButton
-        android:id="@+id/radioButtonLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioButtonMedium"
-        app:layout_constraintTop_toTopOf="@+id/radioGroupSize"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/addToOrderButton"
         android:layout_width="133dp"
         android:layout_height="50dp"
         android:layout_marginStart="250dp"
@@ -190,7 +345,7 @@
         android:layout_marginBottom="29dp"
         android:text="@string/pizza_price"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintEnd_toStartOf="@+id/priceText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
@@ -198,7 +353,7 @@
         android:id="@+id/toppings"
         android:layout_width="406dp"
         android:layout_height="250dp"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/addToOrderButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
@@ -407,7 +562,7 @@
         app:layout_constraintTop_toBottomOf="@+id/choosePizzaType" />
 
     <EditText
-        android:id="@+id/price"
+        android:id="@+id/priceText"
         android:layout_width="142dp"
         android:layout_height="42dp"
         android:layout_marginStart="5dp"
@@ -417,7 +572,7 @@
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/addToOrderButton"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
