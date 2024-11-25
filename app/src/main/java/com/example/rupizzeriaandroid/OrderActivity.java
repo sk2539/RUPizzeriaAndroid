@@ -1,7 +1,10 @@
 package com.example.rupizzeriaandroid;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,17 +15,24 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class OrderActivity extends AppCompatActivity {
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
-    private boolean isChicagoStyle = true;
+import java.util.ArrayList;
+
+public class OrderActivity extends AppCompatActivity {
     private Spinner typeSpinner;
     private Spinner pizzaSpinner;
     private ImageView pizzaImageView;
+    ArrayList<Topping> toppings = new ArrayList<>();
+
+    private int numberOfToppings = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +70,90 @@ public class OrderActivity extends AppCompatActivity {
 
         pizzaImageView = findViewById(R.id.mainImage);
 
-        // Add listeners to both spinners
         typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
         pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
 
-        ImageButton imageButton = findViewById(R.id.homeButton); // Make sure this matches your XML id
+        ImageButton imageButton = findViewById(R.id.homeButton);
         imageButton.setOnClickListener(v -> {
-            // Start the new activity
-            Intent intent = new Intent(OrderActivity.this, MainActivity.class); // Replace NewActivity with your target activity
+            Intent intent = new Intent(OrderActivity.this, MainActivity.class);
             startActivity(intent);
         });
+
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setOnClickListener(view -> {
+                if (numberOfToppings >= 7 && !chip.isSelected()) {
+                    showMaxToppingsAlert();
+                    return;
+                }
+
+                if (!chip.isSelected()) {
+                    numberOfToppings++;
+                    chip.setSelected(true);
+                    toppings.add(getToppingSelected(chip.getText().toString()));
+                    // Set the background color and text color when selected
+                    chip.setChipBackgroundColorResource(R.color.maroon);
+                    chip.setTextColor(Color.WHITE);
+                    Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
+                } else {
+                    numberOfToppings--;
+                    chip.setSelected(false);
+                    toppings.remove(getToppingSelected(chip.getText().toString()));
+                    chip.setChipBackgroundColorResource(R.color.darkbeige);
+                    chip.setTextColor(Color.BLACK);
+                    Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
+                }
+            });
+        }
+
+
+    }
+
+    private void showMaxToppingsAlert() {
+        new AlertDialog.Builder(OrderActivity.this)
+                .setTitle("Maximum Toppings Reached")
+                .setMessage("You can only select up to 7 toppings.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private Topping getToppingSelected(String toppingName) {
+        switch (toppingName.toUpperCase()) {
+            case "SAUSAGE":
+                return Topping.SAUSAGE;
+            case "PEPPERONI":
+                return Topping.PEPPERONI;
+            case "GREENPEPPER":
+                return Topping.GREENPEPPER;
+            case "ONION":
+                return Topping.ONION;
+            case "MUSHROOM":
+                return Topping.MUSHROOM;
+            case "BBQCHICKEN":
+                return Topping.BBQCHICKEN;
+            case "PROVOLONE":
+                return Topping.PROVOLONE;
+            case "CHEDDAR":
+                return Topping.CHEDDAR;
+            case "BEEF":
+                return Topping.BEEF;
+            case "HAM":
+                return Topping.HAM;
+            case "BROCCOLI":
+                return Topping.BROCCOLI;
+            case "SPINACH":
+                return Topping.SPINACH;
+            case "JALAPENO":
+                return Topping.JALAPENO;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -91,7 +175,7 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
 
-        isChicagoStyle = (typePosition == 1); // Chicago is at index 1
+        boolean isChicagoStyle = (typePosition == 1); // Chicago is at index 1
 
         // Update the image based on the current selections
         switch (pizzaPosition) {

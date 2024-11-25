@@ -17,6 +17,19 @@
     <string name="toppings">Toppings:</string>
     <string name="left"><![CDATA[<<]]></string>
     <string name="right"><![CDATA[>>]]></string>
+    <string name="sausage">Sausage</string>
+    <string name="pepperoni">Pepperoni</string>
+    <string name="greenpepper">Greenpepper</string>
+    <string name="onion">Onion</string>
+    <string name="mushroom">Mushroom</string>
+    <string name="bbq_chicken">BBQ Chicken</string>
+    <string name="provolone">Provolone</string>
+    <string name="cheddar">Cheddar</string>
+    <string name="beef">Beef</string>
+    <string name="ham">Ham</string>
+    <string name="broccoli">Broccoli</string>
+    <string name="spinach">Spinach</string>
+    <string name="jalapeno">Jalapeno</string>
 
 
     <string-array name="dropdown_items">
