@@ -50,9 +50,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="13dp"
         android:backgroundTint="#974C4C"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chooseType"
         app:layout_constraintTop_toBottomOf="@+id/shoppingCart" />
@@ -167,21 +165,6 @@
         app:layout_constraintStart_toEndOf="@+id/radioButtonMedium"
         app:layout_constraintTop_toTopOf="@+id/radioGroupSize"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pricePriceInput"
-        android:layout_width="125dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="13dp"
-        android:background="#EDDDC6"
-        android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/toppings" />
-
     <Button
         android:id="@+id/button3"
         android:layout_width="133dp"
@@ -193,7 +176,7 @@
         android:text="@string/add_to_order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
@@ -203,11 +186,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="29dp"
         android:text="@string/pizza_price"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pricePriceInput"
+        app:layout_constraintEnd_toStartOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
@@ -401,29 +384,41 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:text="Crust type: "
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseType" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="263dp"
-        android:layout_height="37dp"
+    <EditText
+        android:id="@+id/crustType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="74dp"
+        android:layout_marginBottom="27dp"
+        android:backgroundTint="#974C4C"
+        android:ems="10"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/radioGroupSize"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/choosePizzaType">
+        app:layout_constraintTop_toBottomOf="@+id/choosePizzaType" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="252dp"
-            android:layout_height="27dp"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="142dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="#974C4C"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/toppings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

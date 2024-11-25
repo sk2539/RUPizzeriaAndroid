@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -147,33 +152,31 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Updates the image based on the current selections of both spinners.
-     */
     private void updatePizzaImage() {
+        EditText crustText = findViewById(R.id.crustType);
+        EditText priceText = findViewById(R.id.price);
         int typePosition = typeSpinner.getSelectedItemPosition();
         int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
-
         if (typePosition == 0) { // No pizza style selected
             pizzaImageView.setImageDrawable(null);
             Toast.makeText(this, "Please select a pizza style", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (pizzaPosition == 0) { // No pizza type selected
             pizzaImageView.setImageDrawable(null);
             Toast.makeText(this, "Please select a pizza type", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        boolean isChicagoStyle = (typePosition == 1); // Chicago is at index 1
-
+        boolean isChicagoStyle = (typePosition == 1);
         ChipGroup chipGroup = findViewById(R.id.toppings);
-
-        // Update the image based on the current selections
+        Pizza newPizza = null;
+        PizzaFactory pizzaFactory = isChicagoStyle ? new ChicagoPizza() : new NYPizza();
         switch (pizzaPosition) {
             case 1: // Deluxe
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagodeluxepizza : R.drawable.nydeluxe);
+                crustText.setText(isChicagoStyle ? "Deep Dish" : "Brooklyn");
+                newPizza = pizzaFactory.createDeluxe();
+                newPizza.setSize(setSizeUI());
                 clearAllSelections();
                 disableChips(false);
                 selectTopping(Topping.SAUSAGE);
@@ -189,6 +192,9 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 2: // BBQ Chicken
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagobbqchicken : R.drawable.nybbqchicken);
+                crustText.setText(isChicagoStyle ? "Pan" : "Thin");
+                newPizza = pizzaFactory.createBBQChicken();
+                newPizza.setSize(setSizeUI());
                 clearAllSelections();
                 disableChips(false);
                 selectTopping(Topping.BBQCHICKEN);
@@ -202,6 +208,9 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 3: // Meatzza
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagomeatzza : R.drawable.nymeattza);
+                crustText.setText(isChicagoStyle ? "Stuffed" : "Hand-tossed");
+                newPizza = pizzaFactory.createMeatzza();
+                newPizza.setSize(setSizeUI());
                 clearAllSelections();
                 disableChips(false);
                 selectTopping(Topping.SAUSAGE);
@@ -215,6 +224,10 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4: // Build Your Own
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.buildyourownpizza : R.drawable.buildyourownpizza);
+                crustText.setText(isChicagoStyle ? "Pan" : "Hand-tossed");
+                newPizza = pizzaFactory.createBuildYourOwn();
+                newPizza.setSize(setSizeUI());
+                newPizza.setToppings(toppings);
                 enableChips(true);
                 clearAllSelections();
                 break;
@@ -222,8 +235,30 @@ public class OrderActivity extends AppCompatActivity {
                 pizzaImageView.setImageDrawable(null);
                 break;
         }
+        Log.d("Is size set?", String.valueOf(newPizza.getSize()));
+        //priceText.setText(String.valueOf(newPizza.price()));
         chipGroup.setEnabled(false);
     }
+
+    private Size setSizeUI() {
+        RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
+        int selectedId = radioGroupSize.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            RadioButton selectedButton = findViewById(selectedId);
+            String sizeText = selectedButton.getText().toString().toUpperCase();
+            switch (sizeText) {
+                case "SMALL":
+                    return Size.SMALL;
+                case "MEDIUM":
+                    return Size.MEDIUM;
+                case "LARGE":
+                    return Size.LARGE;
+            }
+        }
+        return null;
+    }
+
+
 
     private void disableChips(boolean enable) {
         ChipGroup chipGroup = findViewById(R.id.toppings);
