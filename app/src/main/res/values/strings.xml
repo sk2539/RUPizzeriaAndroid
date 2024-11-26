@@ -30,6 +30,7 @@
     <string name="broccoli">Broccoli</string>
     <string name="spinach">Spinach</string>
     <string name="jalapeno">Jalapeno</string>
+    <string name="mycart">My Cart</string>
 
 
     <string-array name="dropdown_items">

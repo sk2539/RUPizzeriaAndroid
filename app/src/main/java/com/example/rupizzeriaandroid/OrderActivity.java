@@ -78,6 +78,11 @@ public class OrderActivity extends AppCompatActivity {
             Intent intent = new Intent(OrderActivity.this, MainActivity.class);
             startActivity(intent);
         });
+        ImageButton shoppingCart = findViewById(R.id.shoppingCart);
+        shoppingCart.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderActivity.this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
         ChipGroup chipGroup = findViewById(R.id.toppings);
         chipGroup.setEnabled(false);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -340,6 +345,8 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             default:
                 disableChips(false);
+                clearAllToppingsImages();
+                clearAllSelections();
                 pizzaImageView.setImageDrawable(null);
                 break;
         }
@@ -455,7 +462,7 @@ public class OrderActivity extends AppCompatActivity {
         double totalPrice = pizza.price(); // Assuming price() calculates the total price
         priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
         // remember to add to order too!
-        pizzas.add(pizza);
+        PizzaManager.getInstance().addPizza(pizza);
         Log.d("PizzaList", "Current pizzas: " + pizzas.toString());
         Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
         clearAllSelections();
