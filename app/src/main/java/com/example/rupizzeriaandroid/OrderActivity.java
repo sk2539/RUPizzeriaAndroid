@@ -215,6 +215,23 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    private void clearAllToppingsImages() {
+        sausageLayer.setImageResource(0);
+        pepperoniLayer.setImageResource(0);
+        greenpepperLayer.setImageResource(0);
+        onionLayer.setImageResource(0);
+        mushroomLayer.setImageResource(0);
+        chickenLayer.setImageResource(0);
+        provoloneLayer.setImageResource(0);
+        cheddarLayer.setImageResource(0);
+        beefLayer.setImageResource(0);
+        hamLayer.setImageResource(0);
+        broccoliLayer.setImageResource(0);
+        spinachLayer.setImageResource(0);
+        jalapenoLayer.setImageResource(0);
+        numberOfToppings = 0;
+    }
+
     private void showMaxToppingsAlert() {
         new AlertDialog.Builder(OrderActivity.this)
                 .setTitle("Maximum Toppings Reached")
@@ -269,6 +286,7 @@ public class OrderActivity extends AppCompatActivity {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         switch (pizzaPosition) {
             case 1: // Deluxe
+                clearAllToppingsImages();
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagodeluxepizza : R.drawable.nydeluxe);
                 crustText.setText(isChicagoStyle ? "Deep Dish" : "Brooklyn");
                 clearAllSelections();
@@ -285,6 +303,7 @@ public class OrderActivity extends AppCompatActivity {
                 toppings.add(Topping.MUSHROOM);
                 break;
             case 2: // BBQ Chicken
+                clearAllToppingsImages();
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagobbqchicken : R.drawable.nybbqchicken);
                 crustText.setText(isChicagoStyle ? "Pan" : "Thin");
                 clearAllSelections();
@@ -299,6 +318,7 @@ public class OrderActivity extends AppCompatActivity {
                 toppings.add(Topping.CHEDDAR);
                 break;
             case 3: // Meatzza
+                clearAllToppingsImages();
                 pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagomeatzza : R.drawable.nymeattza);
                 crustText.setText(isChicagoStyle ? "Stuffed" : "Hand-tossed");
                 clearAllSelections();
@@ -319,10 +339,10 @@ public class OrderActivity extends AppCompatActivity {
                 clearAllSelections();
                 break;
             default:
+                disableChips(false);
                 pizzaImageView.setImageDrawable(null);
                 break;
         }
-        //priceText.setText(String.valueOf(newPizza.price()));
         chipGroup.setEnabled(false);
     }
 
@@ -387,6 +407,7 @@ public class OrderActivity extends AppCompatActivity {
     ArrayList<Pizza> pizzas = new ArrayList<>();
 
     private void onAddToOrderClick() {
+        clearAllToppingsImages();
         int typePosition = typeSpinner.getSelectedItemPosition();
         if (typePosition == 0) {
             Toast.makeText(this, "Please select a pizza style.", Toast.LENGTH_SHORT).show();
@@ -412,7 +433,7 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4: // Build Your Own
                 pizza = pizzaFactory.createBuildYourOwn();
-                pizza.setToppings(new ArrayList<>(toppings)); // Add selected toppings
+                pizza.setToppings(new ArrayList<>(toppings));
                 break;
             default:
                 Toast.makeText(this, "Invalid pizza type selected.", Toast.LENGTH_SHORT).show();
