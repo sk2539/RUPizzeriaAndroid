@@ -4,16 +4,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
-
-    // Constructor
     public PizzaAdapter(ArrayList<Pizza> pizzas) {
-        this.pizzas = pizzas;
+        this.pizzas = new ArrayList<>(pizzas); // Defensive copy
     }
 
     @NonNull
@@ -34,6 +34,17 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     @Override
     public int getItemCount() {
         return pizzas.size();
+    }
+
+    /**
+     * Update the pizza list and refresh the RecyclerView.
+     *
+     * @param newPizzas The updated list of pizzas.
+     */
+    public void updatePizzas(ArrayList<Pizza> newPizzas) {
+        pizzas.clear();
+        pizzas.addAll(newPizzas); // Add all new pizzas
+        notifyDataSetChanged(); // Notify the adapter of the data change
     }
 
     static class PizzaViewHolder extends RecyclerView.ViewHolder {
