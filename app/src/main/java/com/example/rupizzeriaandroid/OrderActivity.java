@@ -109,6 +109,7 @@ public class OrderActivity extends AppCompatActivity {
                     removeImageForBYO(chip.getText().toString());
                     Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
                 }
+                Log.d("Toppings", "Current toppings: " + toppings.toString());
                 recalculatePrice();
             });
         }
@@ -261,7 +262,7 @@ public class OrderActivity extends AppCompatActivity {
                 return Topping.ONION;
             case "MUSHROOM":
                 return Topping.MUSHROOM;
-            case "BBQCHICKEN":
+            case "BBQ CHICKEN":
                 return Topping.BBQCHICKEN;
             case "PROVOLONE":
                 return Topping.PROVOLONE;
@@ -380,7 +381,7 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4:
                 pizza = pizzaFactory.createBuildYourOwn();
-                pizza.setToppings(new ArrayList<>(toppings)); // Include selected toppings
+                pizza.setToppings(new ArrayList<>(toppings));
                 break;
             default:
                 return;
