@@ -1,5 +1,7 @@
 package com.example.rupizzeriaandroid;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
+    private int selectedPosition = RecyclerView.NO_POSITION; // Tracks selected item
+
     public PizzaAdapter(ArrayList<Pizza> pizzas) {
         this.pizzas = (pizzas == null) ? new ArrayList<>() : new ArrayList<>(pizzas);
     }
@@ -25,15 +29,28 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PizzaViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PizzaViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Pizza pizza = pizzas.get(position);
         if (pizza != null) {
-            holder.nameTextView.setText(pizza.toString()); // Use pizza.toString() or specific attributes
-            holder.priceTextView.setText(String.format("$%.2f", pizza.price())); // Format the price correctly
+            holder.nameTextView.setText(pizza.toString());
+            holder.priceTextView.setText(String.format("$%.2f", pizza.price()));
         } else {
             holder.nameTextView.setText("Unknown Pizza");
             holder.priceTextView.setText("$0.00");
         }
+
+        // Highlight background if this is the selected position
+        holder.itemView.setBackgroundColor(selectedPosition == position ? Color.LTGRAY : Color.TRANSPARENT);
+
+        // Handle item click
+        holder.itemView.setOnClickListener(v -> {
+            int previousPosition = selectedPosition;
+            selectedPosition = position;
+
+            // Notify adapter to refresh the visuals
+            notifyItemChanged(previousPosition);
+            notifyItemChanged(selectedPosition);
+        });
     }
 
     @Override
@@ -41,11 +58,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         return pizzas.size();
     }
 
-    /**
-     * Update the pizza list and refresh the RecyclerView.
-     *
-     * @param newPizzas The updated list of pizzas.
-     */
     public void updatePizzas(ArrayList<Pizza> newPizzas) {
         if (newPizzas == null) {
             newPizzas = new ArrayList<>();
@@ -53,6 +65,17 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         pizzas.clear();
         pizzas.addAll(newPizzas);
         notifyDataSetChanged();
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public Pizza getSelectedPizza() {
+        if (selectedPosition != RecyclerView.NO_POSITION && selectedPosition < pizzas.size()) {
+            return pizzas.get(selectedPosition);
+        }
+        return null;
     }
 
     static class PizzaViewHolder extends RecyclerView.ViewHolder {

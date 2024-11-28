@@ -3,8 +3,10 @@ package com.example.rupizzeriaandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView pizzasList;
     private EditText subtotalText, taxText, totalText;
+    private Button removePizzaButton, clearOrderButton, placeOrderButton, ordersPlacedButton;
+    private int selectedPizzaPosition = -1; // Tracks the selected pizza
     private static final double NJ_SALES_TAX = 0.06625;
 
     @Override
@@ -37,10 +41,18 @@ public class ShoppingCartActivity extends AppCompatActivity {
         subtotalText = findViewById(R.id.subtotalText);
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
-        if (pizzasList == null) {
-            Log.e("ShoppingCartActivity", "RecyclerView is null. Check your XML layout ID.");
-        }
+
+        removePizzaButton = findViewById(R.id.removePizzaButton);
+        clearOrderButton = findViewById(R.id.clearOrderButton);
+        placeOrderButton = findViewById(R.id.placeOrderButton);
+        ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
+
         pizzasList.setLayoutManager(new LinearLayoutManager(this)); // Set a layout manager
+
+        // Button listeners
+        removePizzaButton.setOnClickListener(v -> removeSelectedPizza());
+        clearOrderButton.setOnClickListener(v -> clearOrder());
+        placeOrderButton.setOnClickListener(v -> placeOrder());
 
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> {
@@ -63,13 +75,53 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void updateCart() {
         ArrayList<Pizza> pizzas = PizzaManager.getInstance().getPizzas();
+        PizzaAdapter adapter;
         if (pizzasList.getAdapter() != null) {
-            ((PizzaAdapter) pizzasList.getAdapter()).updatePizzas(pizzas);
+            adapter = (PizzaAdapter) pizzasList.getAdapter();
+            adapter.updatePizzas(pizzas);
         } else {
-            PizzaAdapter adapter = new PizzaAdapter(pizzas);
+            adapter = new PizzaAdapter(pizzas);
             pizzasList.setAdapter(adapter);
         }
+        updateTotals(pizzas);
+    }
 
+    private void removeSelectedPizza() {
+        PizzaAdapter adapter = (PizzaAdapter) pizzasList.getAdapter();
+        int selectedPosition = adapter.getSelectedPosition();
+        if (selectedPosition == RecyclerView.NO_POSITION) {
+            Toast.makeText(this, "No pizza selected!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Pizza removedPizza = adapter.getSelectedPizza();
+        PizzaManager.getInstance().removePizza(removedPizza);
+        updateCart();
+        Toast.makeText(this, "Pizza removed successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void clearOrder() {
+        PizzaManager.getInstance().clearPizzas();
+        selectedPizzaPosition = -1; // Reset selection
+        updateCart();
+        Toast.makeText(this, "Order cleared successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void placeOrder() {
+        ArrayList<Pizza> pizzas = PizzaManager.getInstance().getPizzas();
+        if (pizzas.isEmpty()) {
+            Toast.makeText(this, "No pizzas in the cart!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Logic to handle placing the order (e.g., save to database or send to server)
+        PizzaManager.getInstance().clearPizzas(); // Clear the cart after placing the order
+        selectedPizzaPosition = -1; // Reset selection
+        updateCart();
+        Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateTotals(ArrayList<Pizza> pizzas) {
         double subtotal = calculateSubtotal(pizzas);
         double salesTax = subtotal * NJ_SALES_TAX;
         double total = subtotal + salesTax;
@@ -86,6 +138,4 @@ public class ShoppingCartActivity extends AppCompatActivity {
         }
         return subtotal;
     }
-
-
 }
