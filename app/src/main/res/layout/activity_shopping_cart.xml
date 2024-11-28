@@ -45,16 +45,19 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pizzasList"
-        android:layout_width="345dp"
-        android:layout_height="387dp"
-        android:layout_marginStart="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="22dp"
         app:layout_constraintBottom_toTopOf="@+id/taxText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/homeButton"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:overScrollMode="always"  />
 
     <TextView
         android:id="@+id/textView8"
@@ -126,7 +129,7 @@
         android:layout_marginStart="47dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:text="Sales Tax:"
+        android:text="@string/sales_tax"
         app:layout_constraintEnd_toStartOf="@+id/taxText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtotalText" />
@@ -139,7 +142,7 @@
         android:layout_marginTop="41dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="69dp"
-        android:text="Order Total:"
+        android:text="@string/order_total"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/totalText"
         app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +156,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginTop="39dp"
         android:layout_marginBottom="52dp"
-        android:text="Subtotal: "
+        android:text="@string/subtotal"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toStartOf="@+id/taxText"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +170,7 @@
         android:layout_marginTop="22dp"
         android:layout_marginEnd="74dp"
         android:backgroundTint="#974C4C"
-        android:text="Remove Pizza"
+        android:text="@string/remove_pizza"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/taxText"
         app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
@@ -180,7 +183,7 @@
         android:layout_marginEnd="70dp"
         android:layout_marginBottom="25dp"
         android:backgroundTint="#974C4C"
-        android:text="Clear Order"
+        android:text="@string/clear_order"
         app:layout_constraintBottom_toTopOf="@+id/placeOrderButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/removePizzaButton" />
@@ -192,7 +195,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="70dp"
         android:backgroundTint="#974C4C"
-        android:text="Place Order"
+        android:text="@string/place_order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clearOrderButton" />
 
@@ -205,7 +208,7 @@
         android:layout_marginEnd="127dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#974C4C"
-        android:text="Orders Placed"
+        android:text="@string/orders_placed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

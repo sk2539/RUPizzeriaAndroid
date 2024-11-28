@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
     public PizzaAdapter(ArrayList<Pizza> pizzas) {
-        this.pizzas = new ArrayList<>(pizzas);
+        this.pizzas = (pizzas == null) ? new ArrayList<>() : new ArrayList<>(pizzas);
     }
 
     @NonNull
@@ -27,8 +27,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     @Override
     public void onBindViewHolder(@NonNull PizzaViewHolder holder, int position) {
         Pizza pizza = pizzas.get(position);
-        holder.nameTextView.setText(pizza.toString());
-        holder.priceTextView.setText(String.format("$%.2f", pizza.price()));
+        if (pizza != null) {
+            holder.nameTextView.setText(pizza.toString()); // Use pizza.toString() or specific attributes
+            holder.priceTextView.setText(String.format("$%.2f", pizza.price())); // Format the price correctly
+        } else {
+            holder.nameTextView.setText("Unknown Pizza");
+            holder.priceTextView.setText("$0.00");
+        }
     }
 
     @Override
@@ -42,6 +47,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
      * @param newPizzas The updated list of pizzas.
      */
     public void updatePizzas(ArrayList<Pizza> newPizzas) {
+        if (newPizzas == null) {
+            newPizzas = new ArrayList<>();
+        }
         pizzas.clear();
         pizzas.addAll(newPizzas);
         notifyDataSetChanged();
