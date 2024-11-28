@@ -8,6 +8,41 @@
     android:background="#F0E5D5"
     tools:context=".ShoppingCartActivity">
 
+    <EditText
+        android:id="@+id/subtotalText2"
+        android:layout_width="81dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:inputType="text"
+        android:shadowColor="#974C4C"
+        android:textColor="#974C4C"
+        android:textColorHighlight="#974C4C"
+        android:textColorHint="#974C4C"
+        android:textColorLink="#974C4C"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
+
+    <EditText
+        android:id="@+id/subtotalText5"
+        android:layout_width="81dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="37dp"
+        android:ems="10"
+        android:inputType="text"
+        android:shadowColor="#974C4C"
+        android:textColor="#974C4C"
+        android:textColorHighlight="#974C4C"
+        android:textColorHint="#974C4C"
+        android:textColorLink="#974C4C"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pizzasList"
         android:layout_width="345dp"
@@ -15,6 +50,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/subtotalText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeButton" />
@@ -62,5 +99,101 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backbuttonprocessed" />
+
+    <EditText
+        android:id="@+id/subtotalText"
+        android:layout_width="81dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="47dp"
+        android:ems="10"
+        android:inputType="text"
+        android:shadowColor="#974C4C"
+        android:textColor="#974C4C"
+        android:textColorHighlight="#974C4C"
+        android:textColorHint="#974C4C"
+        android:textColorLink="#974C4C"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:text="Sales Tax:"
+        app:layout_constraintEnd_toStartOf="@+id/subtotalText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtotalText2" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="69dp"
+        android:text="Order Total:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/subtotalText5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtotalText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginBottom="52dp"
+        android:text="Subtotal: "
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toStartOf="@+id/subtotalText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="74dp"
+        android:backgroundTint="#974C4C"
+        android:text="Remove Pizza"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/subtotalText"
+        app:layout_constraintTop_toBottomOf="@+id/pizzasList" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="#974C4C"
+        android:text="Clear Order"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="70dp"
+        android:backgroundTint="#974C4C"
+        android:text="Place Order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
     public PizzaAdapter(ArrayList<Pizza> pizzas) {
-        this.pizzas = new ArrayList<>(pizzas); // Defensive copy
+        this.pizzas = new ArrayList<>(pizzas);
     }
 
     @NonNull
@@ -43,8 +43,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
      */
     public void updatePizzas(ArrayList<Pizza> newPizzas) {
         pizzas.clear();
-        pizzas.addAll(newPizzas); // Add all new pizzas
-        notifyDataSetChanged(); // Notify the adapter of the data change
+        pizzas.addAll(newPizzas);
+        notifyDataSetChanged();
     }
 
     static class PizzaViewHolder extends RecyclerView.ViewHolder {

@@ -470,10 +470,6 @@ public class OrderActivity extends AppCompatActivity {
         disableChips(true);
     }
 
-    public ArrayList<Pizza> getPizzaList() {  // include in singleton view?
-        return pizzas;
-    }
-
     private void clearInputs() {
         EditText pizzaTypeEditText = findViewById(R.id.crustType);
         pizzaTypeEditText.setText("");

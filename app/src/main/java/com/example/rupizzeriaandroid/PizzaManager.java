@@ -16,7 +16,7 @@ public class PizzaManager {
      */
     public static PizzaManager getInstance() {
         if (instance == null) {
-            synchronized (PizzaManager.class) { // Thread safety
+            synchronized (PizzaManager.class) {
                 if (instance == null) {
                     instance = new PizzaManager();
                 }
@@ -42,7 +42,7 @@ public class PizzaManager {
      * @return The list of pizzas.
      */
     public ArrayList<Pizza> getPizzas() {
-        return new ArrayList<>(pizzas); // Return a copy to avoid external modification
+        return new ArrayList<>(pizzas);
     }
 
     /**
