@@ -47,9 +47,9 @@ public class ShoppingCartActivity extends AppCompatActivity {
         placeOrderButton = findViewById(R.id.placeOrderButton);
         ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
 
-        pizzasList.setLayoutManager(new LinearLayoutManager(this)); // Set a layout manager
+        pizzasList.setLayoutManager(new LinearLayoutManager(this));
 
-        // Button listeners
+
         removePizzaButton.setOnClickListener(v -> removeSelectedPizza());
         clearOrderButton.setOnClickListener(v -> clearOrder());
         placeOrderButton.setOnClickListener(v -> placeOrder());
@@ -63,6 +63,12 @@ public class ShoppingCartActivity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShoppingCartActivity.this, OrderActivity.class);
+            startActivity(intent);
+        });
+
+        Button ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
+        ordersPlacedButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoppingCartActivity.this, OrdersPlacedActivity.class);
             startActivity(intent);
         });
     }
@@ -113,10 +119,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Toast.makeText(this, "No pizzas in the cart!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Logic to handle placing the order (e.g., save to database or send to server)
-        PizzaManager.getInstance().clearPizzas(); // Clear the cart after placing the order
-        selectedPizzaPosition = -1; // Reset selection
+        PizzaManager.getInstance().clearPizzas();
+        selectedPizzaPosition = -1;
         updateCart();
         Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
     }

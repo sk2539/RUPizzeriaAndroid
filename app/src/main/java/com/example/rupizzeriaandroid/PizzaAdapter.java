@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
-    private int selectedPosition = RecyclerView.NO_POSITION; // Tracks selected item
+    private int selectedPosition = RecyclerView.NO_POSITION;
 
     public PizzaAdapter(ArrayList<Pizza> pizzas) {
         this.pizzas = (pizzas == null) ? new ArrayList<>() : new ArrayList<>(pizzas);
@@ -38,16 +38,10 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
             holder.nameTextView.setText("Unknown Pizza");
             holder.priceTextView.setText("$0.00");
         }
-
-        // Highlight background if this is the selected position
         holder.itemView.setBackgroundColor(selectedPosition == position ? Color.LTGRAY : Color.TRANSPARENT);
-
-        // Handle item click
         holder.itemView.setOnClickListener(v -> {
             int previousPosition = selectedPosition;
             selectedPosition = position;
-
-            // Notify adapter to refresh the visuals
             notifyItemChanged(previousPosition);
             notifyItemChanged(selectedPosition);
         });
