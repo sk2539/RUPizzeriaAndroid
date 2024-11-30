@@ -41,9 +41,22 @@ public class ShoppingCartActivity extends AppCompatActivity {
         subtotalText = findViewById(R.id.subtotalText);
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
-        orderNumberText = findViewById(R.id.orderNumberText);
         SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
-        orderNumber = preferences.getInt("orderNumber", 0);
+        boolean isAppRunning = preferences.getBoolean("isAppRunning", false);
+
+        if (!isAppRunning) {
+            orderNumber = 0;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("orderNumber", orderNumber);
+            editor.putBoolean("isAppRunning", true);
+            editor.apply();
+
+            Log.d("App restart", "App restarted, order number reset to 0.");
+        } else {
+            orderNumber = preferences.getInt("orderNumber", 0);
+            Log.d("App resumed", "App resumed, order number is " + orderNumber);
+        }
+        orderNumberText = findViewById(R.id.orderNumberText);
         orderNumberText.setText(String.valueOf(orderNumber));
         numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         removePizzaButton = findViewById(R.id.removePizzaButton);
@@ -69,6 +82,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Intent intent = new Intent(ShoppingCartActivity.this, OrdersPlacedActivity.class);
             startActivity(intent);
         });
+        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
     }
 
     @Override
@@ -88,6 +102,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
             pizzasList.setAdapter(adapter);
         }
         updateTotals(pizzas);
+        numberOfPizzasText.setText(String.valueOf(pizzas.size()));
     }
 
     private void removeSelectedPizza() {
@@ -99,6 +114,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         }
         Pizza removedPizza = adapter.getSelectedPizza();
         PizzaManager.getInstance().removePizza(removedPizza);
+        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
         updateCart();
         Toast.makeText(this, "Pizza removed successfully!", Toast.LENGTH_SHORT).show();
     }
@@ -107,6 +123,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private void clearOrder() {
         PizzaManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
+        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
         updateCart();
         Toast.makeText(this, "Order cleared successfully!", Toast.LENGTH_SHORT).show();
     }
@@ -131,10 +148,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
     }
 
-    private void updateOrderNumber() {
-        orderNumberText.setText(String.valueOf(orderNumber));
-    }
-
     private void updateTotals(ArrayList<Pizza> pizzas) {
         double subtotal = calculateSubtotal(pizzas);
         double salesTax = subtotal * NJ_SALES_TAX;
@@ -151,5 +164,15 @@ public class ShoppingCartActivity extends AppCompatActivity {
             subtotal += pizza.price();
         }
         return subtotal;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isAppRunning", false); // Mark app as not running
+        editor.apply();
+        Log.d("ShoppingCartActivity", "onDestroy called, isAppRunning set to false.");
     }
 }

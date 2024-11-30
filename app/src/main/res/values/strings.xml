@@ -41,6 +41,10 @@
     <string name="crust_type">Crust type:</string>
     <string name="order_number">Order Number:</string>
     <string name="number_of_pizzas">Number of Pizzas:</string>
+    <string name="ordernum">Order #</string>
+    <string name="numpizzas"># of Pizzas</string>
+    <string name="total">Total ($)</string>
+    <string name="order_details">Order Details</string>
 
 
     <string-array name="dropdown_items">

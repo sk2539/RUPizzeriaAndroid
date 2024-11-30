@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 public class OrderManager {
     private static OrderManager instance;
-    private ArrayList<Order> orders;
+    private final ArrayList<Order> orders = new ArrayList<>();
 
-    private OrderManager() {
-        orders = new ArrayList<>();
-    }
+    private OrderManager() {}
 
-    public static OrderManager getInstance() {
+    public static synchronized OrderManager getInstance() {
         if (instance == null) {
             instance = new OrderManager();
         }
@@ -22,6 +20,10 @@ public class OrderManager {
     }
 
     public ArrayList<Order> getOrders() {
-        return orders;
+        return new ArrayList<>(orders); // Return a copy to avoid external modification
+    }
+
+    public void clearOrders() {
+        orders.clear();
     }
 }

@@ -256,7 +256,10 @@
         app:layout_constraintBottom_toTopOf="@+id/pizzasList"
         app:layout_constraintEnd_toStartOf="@+id/textView14"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        android:focusable="false"
+        android:clickable="false"
+        android:editable="false"/>
 
     <EditText
         android:id="@+id/numberOfPizzasText"
@@ -268,6 +271,9 @@
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/pizzasList"
-        app:layout_constraintStart_toEndOf="@+id/textView14" />
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        android:focusable="false"
+        android:clickable="false"
+        android:editable="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

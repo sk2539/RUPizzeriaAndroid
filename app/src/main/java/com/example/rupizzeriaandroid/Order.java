@@ -11,6 +11,8 @@ public class Order {
     private int number;
     private ArrayList<Pizza> pizzas;
 
+    private static final double NJ_SALES_TAX = 0.06625;
+
     /**
      * Constructs an Order object with the specified order number and a list of pizzas.
      * @param number the unique order number.
@@ -85,6 +87,16 @@ public class Order {
                 pizzas.remove(i);
             }
         }
+    }
+
+    public double calculatePrice() {
+        double subtotal = 0;
+        for (Pizza pizza: pizzas) {
+            subtotal += pizza.price();
+        }
+        double salesTax = subtotal * NJ_SALES_TAX;
+        double total = subtotal + salesTax;
+        return total;
     }
 }
 
