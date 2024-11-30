@@ -32,6 +32,5 @@ public class OrdersPlacedActivity extends AppCompatActivity {
             Intent intent = new Intent(OrdersPlacedActivity.this, ShoppingCartActivity.class);
             startActivity(intent);
         });
-
     }
 }

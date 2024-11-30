@@ -1,6 +1,7 @@
 package com.example.rupizzeriaandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -20,52 +21,49 @@ import java.util.ArrayList;
 
 public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView pizzasList;
-    private EditText subtotalText, taxText, totalText;
+    private EditText subtotalText, taxText, totalText, orderNumberText, numberOfPizzasText;
     private Button removePizzaButton, clearOrderButton, placeOrderButton, ordersPlacedButton;
     private int selectedPizzaPosition = -1; // Tracks the selected pizza
     private static final double NJ_SALES_TAX = 0.06625;
+    private int orderNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_shopping_cart);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         pizzasList = findViewById(R.id.pizzasList);
         subtotalText = findViewById(R.id.subtotalText);
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
-
+        orderNumberText = findViewById(R.id.orderNumberText);
+        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
+        orderNumber = preferences.getInt("orderNumber", 0);
+        orderNumberText.setText(String.valueOf(orderNumber));
+        numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         removePizzaButton = findViewById(R.id.removePizzaButton);
         clearOrderButton = findViewById(R.id.clearOrderButton);
         placeOrderButton = findViewById(R.id.placeOrderButton);
         ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
-
         pizzasList.setLayoutManager(new LinearLayoutManager(this));
-
-
         removePizzaButton.setOnClickListener(v -> removeSelectedPizza());
         clearOrderButton.setOnClickListener(v -> clearOrder());
         placeOrderButton.setOnClickListener(v -> placeOrder());
-
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShoppingCartActivity.this, MainActivity.class);
             startActivity(intent);
         });
-
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShoppingCartActivity.this, OrderActivity.class);
             startActivity(intent);
         });
-
         Button ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
         ordersPlacedButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShoppingCartActivity.this, OrdersPlacedActivity.class);
@@ -108,7 +106,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void clearOrder() {
         PizzaManager.getInstance().clearPizzas();
-        selectedPizzaPosition = -1; // Reset selection
+        selectedPizzaPosition = -1;
         updateCart();
         Toast.makeText(this, "Order cleared successfully!", Toast.LENGTH_SHORT).show();
     }
@@ -119,10 +117,22 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Toast.makeText(this, "No pizzas in the cart!", Toast.LENGTH_SHORT).show();
             return;
         }
+        orderNumber+=1;
+        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("orderNumber", orderNumber);
+        editor.apply();
+        orderNumberText.setText(String.valueOf(orderNumber));
+        Order order = new Order(orderNumber, pizzas);
+        OrderManager.getInstance().addOrder(order);
         PizzaManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
         updateCart();
         Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateOrderNumber() {
+        orderNumberText.setText(String.valueOf(orderNumber));
     }
 
     private void updateTotals(ArrayList<Pizza> pizzas) {
