@@ -45,6 +45,8 @@
     <string name="numpizzas"># of Pizzas</string>
     <string name="total">Total ($)</string>
     <string name="order_details">Order Details</string>
+    <string name="output_area">Output Area</string>
+    <string name="browse">Browse</string>
 
 
     <string-array name="dropdown_items">

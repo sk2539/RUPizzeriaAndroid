@@ -14,6 +14,8 @@ public class OrderAdaptor extends BaseAdapter {
     private Context context;
     private ArrayList<Order> orders;
 
+    private int selectedPosition = -1;
+
     public OrderAdaptor(Context context, ArrayList<Order> orders) {
         this.context = context;
         this.orders = orders != null ? orders : new ArrayList<>();
@@ -33,9 +35,11 @@ public class OrderAdaptor extends BaseAdapter {
     public long getItemId(int position) {
         return orders.get(position).getOrderNum();
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.order_item, parent, false);
@@ -49,16 +53,11 @@ public class OrderAdaptor extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // Set item data
         Order order = orders.get(position);
-
         holder.orderNumberText.setText("Order #: " + order.getOrderNum());
         holder.pizzaCountText.setText("# of Pizzas: " + order.getOrder().size());
-
-        double totalAmount = 0;
-        for (Pizza pizza : order.getOrder()) {
-            totalAmount += pizza.price();
-        }
-        holder.totalAmountText.setText("Total ($):  " + String.format("%.2f", order.calculatePrice()));
+        holder.totalAmountText.setText("Total ($): " + String.format("%.2f", order.calculatePrice()));
 
         String details = order.getOrder().stream()
                 .map(pizza -> pizza.getClass().getSimpleName() + " - " + pizza.toString())
@@ -66,7 +65,29 @@ public class OrderAdaptor extends BaseAdapter {
                 .orElse("No pizzas");
         holder.orderDetailsText.setText("Order Details: " + details);
 
+        // Highlight or reset background based on selection
+        if (position == selectedPosition) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.selected_color)); // Highlight color
+        } else {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.default_color)); // Default color
+        }
+
         return convertView;
+    }
+    public void toggleSelection(int position) {
+        if (selectedPosition == position) {
+            // Deselect if the same item is clicked
+            selectedPosition = -1;
+        } else {
+            // Select new position
+            selectedPosition = position;
+        }
+        notifyDataSetChanged(); // Refresh the list
+    }
+
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
+        notifyDataSetChanged(); // Refresh the ListView
     }
 
     // ViewHolder class
