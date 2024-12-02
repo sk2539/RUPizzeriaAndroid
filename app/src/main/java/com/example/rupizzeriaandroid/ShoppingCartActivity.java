@@ -23,7 +23,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView pizzasList;
     private EditText subtotalText, taxText, totalText, orderNumberText, numberOfPizzasText;
     private Button removePizzaButton, clearOrderButton, placeOrderButton, ordersPlacedButton;
-    private int selectedPizzaPosition = -1; // Tracks the selected pizza
+    private int selectedPizzaPosition = -1;
     private static final double NJ_SALES_TAX = 0.06625;
     private int orderNumber = 0;
 
@@ -60,9 +60,14 @@ public class ShoppingCartActivity extends AppCompatActivity {
         placeOrderButton = findViewById(R.id.placeOrderButton);
         ordersPlacedButton = findViewById(R.id.ordersPlacedButton);
         pizzasList.setLayoutManager(new LinearLayoutManager(this));
+        setButtons();
         removePizzaButton.setOnClickListener(v -> removeSelectedPizza());
         clearOrderButton.setOnClickListener(v -> clearOrder());
         placeOrderButton.setOnClickListener(v -> placeOrder());
+        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
+    }
+
+    private void setButtons() {
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(ShoppingCartActivity.this, MainActivity.class);
@@ -78,7 +83,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Intent intent = new Intent(ShoppingCartActivity.this, OrdersPlacedActivity.class);
             startActivity(intent);
         });
-        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
     }
 
     @Override

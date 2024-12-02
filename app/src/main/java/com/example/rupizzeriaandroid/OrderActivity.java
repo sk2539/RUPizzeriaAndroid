@@ -181,7 +181,7 @@ public class OrderActivity extends AppCompatActivity {
     private void removeImageForBYO(String topping) {
         switch (topping) {
             case "Sausage":
-                sausageLayer.setImageResource(0); // Clears the image
+                sausageLayer.setImageResource(0);
                 break;
             case "Pepperoni":
                 pepperoniLayer.setImageResource(0);
@@ -291,68 +291,49 @@ public class OrderActivity extends AppCompatActivity {
         int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
         boolean isChicagoStyle = (typePosition == 1);
         ChipGroup chipGroup = findViewById(R.id.toppings);
+        clearAllToppingsImages();
+        clearAllSelections();
+        disableChips(false);
         switch (pizzaPosition) {
-            case 1: // Deluxe
-                clearAllToppingsImages();
-                pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagodeluxepizza : R.drawable.nydeluxe);
-                crustText.setText(isChicagoStyle ? "Deep Dish" : "Brooklyn");
-                clearAllSelections();
-                disableChips(false);
-                selectTopping(Topping.SAUSAGE);
-                toppings.add(Topping.SAUSAGE);
-                selectTopping(Topping.PEPPERONI);
-                toppings.add(Topping.PEPPERONI);
-                selectTopping(Topping.GREENPEPPER);
-                toppings.add(Topping.GREENPEPPER);
-                selectTopping(Topping.ONION);
-                toppings.add(Topping.ONION);
-                selectTopping(Topping.MUSHROOM);
-                toppings.add(Topping.MUSHROOM);
+            case 1:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagodeluxepizza, R.drawable.nydeluxe, "Deep Dish", "Brooklyn",
+                        Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.ONION, Topping.MUSHROOM);
                 break;
-            case 2: // BBQ Chicken
-                clearAllToppingsImages();
-                pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagobbqchicken : R.drawable.nybbqchicken);
-                crustText.setText(isChicagoStyle ? "Pan" : "Thin");
-                clearAllSelections();
-                disableChips(false);
-                selectTopping(Topping.BBQCHICKEN);
-                toppings.add(Topping.BBQCHICKEN);
-                selectTopping(Topping.GREENPEPPER);
-                toppings.add(Topping.GREENPEPPER);
-                selectTopping(Topping.PROVOLONE);
-                toppings.add(Topping.PROVOLONE);
-                selectTopping(Topping.CHEDDAR);
-                toppings.add(Topping.CHEDDAR);
+            case 2:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagobbqchicken, R.drawable.nybbqchicken, "Pan", "Thin",
+                        Topping.BBQCHICKEN, Topping.GREENPEPPER, Topping.PROVOLONE, Topping.CHEDDAR);
                 break;
-            case 3: // Meatzza
-                clearAllToppingsImages();
-                pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.chicagomeatzza : R.drawable.nymeattza);
-                crustText.setText(isChicagoStyle ? "Stuffed" : "Hand-tossed");
-                clearAllSelections();
-                disableChips(false);
-                selectTopping(Topping.SAUSAGE);
-                toppings.add(Topping.SAUSAGE);
-                toppings.add(Topping.PEPPERONI);
-                selectTopping(Topping.GREENPEPPER);
-                selectTopping(Topping.BEEF);
-                toppings.add(Topping.BEEF);
-                selectTopping(Topping.HAM);
-                toppings.add(Topping.HAM);
+            case 3:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagomeatzza, R.drawable.nymeattza, "Stuffed", "Hand-tossed",
+                        Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.BEEF, Topping.HAM);
                 break;
-            case 4: // Build Your Own
-                pizzaImageView.setImageResource(isChicagoStyle ? R.drawable.buildyourownpizza : R.drawable.buildyourownpizza);
+            case 4:
+                pizzaImageView.setImageResource(R.drawable.buildyourownpizza);
                 crustText.setText(isChicagoStyle ? "Pan" : "Hand-tossed");
                 enableChips(true);
-                clearAllSelections();
                 break;
             default:
-                disableChips(false);
-                clearAllToppingsImages();
-                clearAllSelections();
-                pizzaImageView.setImageDrawable(null);
+                resetPizzaDisplay();
                 break;
         }
         chipGroup.setEnabled(false);
+    }
+
+    private void setupPizza(boolean isChicagoStyle, EditText crustText, int chicagoImage, int nyImage,
+                            String chicagoCrust, String nyCrust, Topping... toppingsToAdd) {
+        pizzaImageView.setImageResource(isChicagoStyle ? chicagoImage : nyImage);
+        crustText.setText(isChicagoStyle ? chicagoCrust : nyCrust);
+        for (Topping topping : toppingsToAdd) {
+            selectTopping(topping);
+            toppings.add(topping);
+        }
+    }
+
+    private void resetPizzaDisplay() {
+        disableChips(false);
+        clearAllToppingsImages();
+        clearAllSelections();
+        pizzaImageView.setImageDrawable(null);
     }
 
     private void recalculatePrice() {

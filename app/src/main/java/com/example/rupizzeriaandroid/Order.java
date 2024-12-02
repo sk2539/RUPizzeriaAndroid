@@ -89,6 +89,13 @@ public class Order {
         }
     }
 
+    /**
+     * Calculates the total price of the order, including sales tax.
+     * The method iterates through the list of pizzas to compute the subtotal,
+     * applies the New Jersey sales tax, and returns the final total.
+     *
+     * @return the total price of the order including sales tax.
+     */
     public double calculatePrice() {
         double subtotal = 0;
         for (Pizza pizza: pizzas) {
