@@ -19,8 +19,12 @@ public class OrderManager {
         orders.add(order);
     }
 
+    public void removeOrder(Order order) {
+        orders.remove(order);
+    }
+
     public ArrayList<Order> getOrders() {
-        return new ArrayList<>(orders); // Return a copy to avoid external modification
+        return new ArrayList<>(orders);
     }
 
     public void clearOrders() {

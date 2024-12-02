@@ -36,20 +36,7 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         ordersListView = findViewById(R.id.orderListView);
         ordersListView.setAdapter(ordersAdapter);
         ordersListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ImageButton homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrdersPlacedActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-        ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrdersPlacedActivity.this, ShoppingCartActivity.class);
-            startActivity(intent);
-        });
-        Button browseButton = findViewById(R.id.browseButton);
-        browseButton.setOnClickListener(v -> {
-            handleBrowseButtonClick();
-        });
+        handleAllButtons();
         ArrayList<Order> orders = OrderManager.getInstance().getOrders();
         if (orders.isEmpty()) {
             Toast.makeText(this, "No orders placed yet!", Toast.LENGTH_SHORT).show();
@@ -64,6 +51,27 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         });
     }
 
+    private void handleAllButtons() {
+        ImageButton homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrdersPlacedActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrdersPlacedActivity.this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
+        Button browseButton = findViewById(R.id.browseButton);
+        browseButton.setOnClickListener(v -> {
+            handleBrowseButtonClick();
+        });
+        Button cancelButton = findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(v -> {
+            handleCancelClick();
+        });
+    }
+
     private void handleBrowseButtonClick() {
         int selectedPosition = ordersListView.getCheckedItemPosition();
         Log.d("ListView", "Selected Position: " + selectedPosition);
@@ -75,18 +83,11 @@ public class OrdersPlacedActivity extends AppCompatActivity {
                     .show();
             return;
         }
-
         Order selectedOrder = (Order) ordersAdapter.getItem(selectedPosition);
-
         StringBuilder orderDetails = new StringBuilder();
         orderDetails.append("Order Number: ").append(selectedOrder.getOrderNum()).append("\n");
-
-        double totalPrice = 0;
-        for (Pizza pizza : selectedOrder.getOrder()) {
-            totalPrice += pizza.price();
-        }
+        double totalPrice = selectedOrder.calculatePrice();
         orderDetails.append("Total Price: $").append(String.format("%.2f", totalPrice)).append("\n");
-
         orderDetails.append("Pizzas Ordered:\n");
         if (selectedOrder.getOrder().isEmpty()) {
             orderDetails.append("  No pizzas in this order.\n");
@@ -98,9 +99,26 @@ public class OrdersPlacedActivity extends AppCompatActivity {
                         .append(" ($").append(String.format("%.2f", pizza.price())).append(")\n");
             }
         }
-
         EditText outputArea = findViewById(R.id.outputArea);
         outputArea.setText(orderDetails.toString());
+    }
+    private void handleCancelClick() {
+        int selectedPosition = ordersListView.getCheckedItemPosition();
+        if (selectedPosition == ListView.INVALID_POSITION) {
+            new AlertDialog.Builder(this)
+                    .setTitle("No Order Selected")
+                    .setMessage("Please select an order to cancel.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+        Order selectedOrder = (Order) ordersAdapter.getItem(selectedPosition);
+        if (selectedOrder != null) {
+            OrderManager.getInstance().removeOrder(selectedOrder);
+            ordersAdapter.removeOrder(selectedOrder);
+            ordersAdapter.notifyDataSetChanged();
+            ordersListView.clearChoices();
+        }
     }
 
 }

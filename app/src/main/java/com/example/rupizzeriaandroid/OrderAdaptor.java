@@ -21,6 +21,12 @@ public class OrderAdaptor extends BaseAdapter {
         this.orders = orders != null ? orders : new ArrayList<>();
     }
 
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        notifyDataSetChanged();
+    }
+
+
     @Override
     public int getCount() {
         return orders.size();
@@ -39,7 +45,6 @@ public class OrderAdaptor extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.order_item, parent, false);
