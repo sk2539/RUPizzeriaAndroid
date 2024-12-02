@@ -68,16 +68,18 @@ public class OrderAdaptor extends BaseAdapter {
                 .reduce((a, b) -> a + ", " + b)
                 .orElse("No pizzas");
         holder.orderDetailsText.setText("Order Details: " + details);
-
-        // Highlight or reset background based on selection
         if (position == selectedPosition) {
             convertView.setBackgroundColor(context.getResources().getColor(R.color.selected_color));
         } else {
             convertView.setBackgroundColor(context.getResources().getColor(R.color.default_color));
         }
-
         return convertView;
     }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
     public void toggleSelection(int position) {
         if (selectedPosition == position) {
             selectedPosition = -1;

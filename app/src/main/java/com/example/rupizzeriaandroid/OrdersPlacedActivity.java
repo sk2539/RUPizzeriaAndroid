@@ -110,8 +110,10 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         outputArea.setText(orderDetails.toString());
     }
     private void handleCancelClick() {
-        int selectedPosition = ordersListView.getCheckedItemPosition();
-        if (selectedPosition == ListView.INVALID_POSITION) {
+        int selectedPosition = ordersAdapter.getSelectedPosition(); // New getter for selectedPosition
+
+        // Check if no order is selected
+        if (selectedPosition == -1) {
             new AlertDialog.Builder(this)
                     .setTitle("No Order Selected")
                     .setMessage("Please select an order to cancel.")
@@ -119,15 +121,18 @@ public class OrdersPlacedActivity extends AppCompatActivity {
                     .show();
             return;
         }
+
+        // Retrieve the selected order
         Order selectedOrder = (Order) ordersAdapter.getItem(selectedPosition);
         if (selectedOrder != null) {
+            // Cancel the order
             OrderManager.getInstance().removeOrder(selectedOrder);
             ordersAdapter.removeOrder(selectedOrder);
-            ordersAdapter.notifyDataSetChanged();
-            ordersListView.clearChoices();
+
+            // Clear selection and notify adapter
+            ordersAdapter.setSelectedPosition(-1);
         }
     }
-
     private void handleExportClick() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.setType("text/plain");
