@@ -171,7 +171,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         super.onDestroy();
         SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isAppRunning", false); // Mark app as not running
+        editor.putBoolean("isAppRunning", false);
         editor.apply();
         Log.d("ShoppingCartActivity", "onDestroy called, isAppRunning set to false.");
     }

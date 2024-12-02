@@ -4,6 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkbeige">#EDDDC6</color>
     <color name="maroon">#974C4C</color>
-    <color name="selected_color">#FFD700</color>
-    <color name="default_color">#FFFFFF</color>
+    <color name="selected_color">#CCAFAF</color>
+    <color name="default_color">#7BD9CDCD</color>
 </resources>

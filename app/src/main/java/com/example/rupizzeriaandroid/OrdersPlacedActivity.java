@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
+import android.util.Log;
 
 public class OrdersPlacedActivity extends AppCompatActivity {
     private ListView ordersListView;
@@ -33,6 +34,8 @@ public class OrdersPlacedActivity extends AppCompatActivity {
             return insets;
         });
         ordersListView = findViewById(R.id.orderListView);
+        ordersListView.setAdapter(ordersAdapter);
+        ordersListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrdersPlacedActivity.this, MainActivity.class);
@@ -62,10 +65,9 @@ public class OrdersPlacedActivity extends AppCompatActivity {
     }
 
     private void handleBrowseButtonClick() {
-        // Get the selected position in the ListView
         int selectedPosition = ordersListView.getCheckedItemPosition();
+        Log.d("ListView", "Selected Position: " + selectedPosition);
         if (selectedPosition == ListView.INVALID_POSITION) {
-            // No item is selected
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("No Order Selected")
                     .setMessage("Please select an order to browse.")
@@ -74,21 +76,17 @@ public class OrdersPlacedActivity extends AppCompatActivity {
             return;
         }
 
-        // Get the selected order from the adapter
         Order selectedOrder = (Order) ordersAdapter.getItem(selectedPosition);
 
-        // Create a StringBuilder to format the order details
         StringBuilder orderDetails = new StringBuilder();
         orderDetails.append("Order Number: ").append(selectedOrder.getOrderNum()).append("\n");
 
-        // Calculate total price of the order
         double totalPrice = 0;
         for (Pizza pizza : selectedOrder.getOrder()) {
             totalPrice += pizza.price();
         }
         orderDetails.append("Total Price: $").append(String.format("%.2f", totalPrice)).append("\n");
 
-        // Add pizza details
         orderDetails.append("Pizzas Ordered:\n");
         if (selectedOrder.getOrder().isEmpty()) {
             orderDetails.append("  No pizzas in this order.\n");

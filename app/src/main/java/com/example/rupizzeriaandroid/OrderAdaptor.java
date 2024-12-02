@@ -53,7 +53,6 @@ public class OrderAdaptor extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // Set item data
         Order order = orders.get(position);
         holder.orderNumberText.setText("Order #: " + order.getOrderNum());
         holder.pizzaCountText.setText("# of Pizzas: " + order.getOrder().size());
@@ -67,30 +66,27 @@ public class OrderAdaptor extends BaseAdapter {
 
         // Highlight or reset background based on selection
         if (position == selectedPosition) {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.selected_color)); // Highlight color
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.selected_color));
         } else {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.default_color)); // Default color
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.default_color));
         }
 
         return convertView;
     }
     public void toggleSelection(int position) {
         if (selectedPosition == position) {
-            // Deselect if the same item is clicked
             selectedPosition = -1;
         } else {
-            // Select new position
             selectedPosition = position;
         }
-        notifyDataSetChanged(); // Refresh the list
+        notifyDataSetChanged();
     }
 
     public void setSelectedPosition(int position) {
         this.selectedPosition = position;
-        notifyDataSetChanged(); // Refresh the ListView
+        notifyDataSetChanged();
     }
 
-    // ViewHolder class
     static class ViewHolder {
         TextView orderNumberText;
         TextView pizzaCountText;
