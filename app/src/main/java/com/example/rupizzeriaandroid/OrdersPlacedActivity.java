@@ -1,6 +1,7 @@
 package com.example.rupizzeriaandroid;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+
 
 import android.util.Log;
 
@@ -70,6 +75,8 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(v -> {
             handleCancelClick();
         });
+        Button exportButton = findViewById(R.id.exportButton);
+        exportButton.setOnClickListener(v -> handleExportClick());
     }
 
     private void handleBrowseButtonClick() {
@@ -121,4 +128,46 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         }
     }
 
+    private void handleExportClick() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, "orders.txt");
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getContentResolver().openOutputStream(uri)))) {
+                    writer.write("Order Number\tTotal Price\tPizzas\n");
+                    writer.write("-------------------------------------------------\n");
+                    for (Order order : OrderManager.getInstance().getOrders()) {
+                        writer.write("Order #" + order.getOrderNum() + "\t");
+                        double total = order.getOrder().stream().mapToDouble(Pizza::price).sum();
+                        writer.write(String.format("$%.2f\t", total));
+                        String pizzas = order.getOrder().stream()
+                                .map(pizza -> pizza.getClass().getSimpleName() + " - " + pizza.toString())
+                                .reduce((a, b) -> a + ", " + b)
+                                .orElse("No pizzas");
+                        writer.write(pizzas + "\n\n");
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Export Successful")
+                            .setMessage("Orders successfully exported to: " + uri.getPath())
+                            .setPositiveButton("OK", null)
+                            .show();
+
+                } catch (IOException e) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Export Failed")
+                            .setMessage("Error exporting orders: " + e.getMessage())
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
+            }
+        }
+    }
 }
