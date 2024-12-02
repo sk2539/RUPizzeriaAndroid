@@ -42,19 +42,15 @@ public class ShoppingCartActivity extends AppCompatActivity {
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
         SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
-        boolean isAppRunning = preferences.getBoolean("isAppRunning", false);
-
-        if (!isAppRunning) {
+        boolean isAppRestarted = preferences.getBoolean("isAppRestarted", true);
+        if (isAppRestarted) {
             orderNumber = 0;
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("orderNumber", orderNumber);
-            editor.putBoolean("isAppRunning", true);
+            editor.putBoolean("isAppRestarted", false);
             editor.apply();
-
-            Log.d("App restart", "App restarted, order number reset to 0.");
         } else {
             orderNumber = preferences.getInt("orderNumber", 0);
-            Log.d("App resumed", "App resumed, order number is " + orderNumber);
         }
         orderNumberText = findViewById(R.id.orderNumberText);
         orderNumberText.setText(String.valueOf(orderNumber));
@@ -171,6 +167,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         super.onDestroy();
         SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("orderNumber", 0);
         editor.putBoolean("isAppRunning", false);
         editor.apply();
         Log.d("ShoppingCartActivity", "onDestroy called, isAppRunning set to false.");
