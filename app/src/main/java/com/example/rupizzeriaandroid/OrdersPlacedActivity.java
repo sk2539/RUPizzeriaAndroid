@@ -75,8 +75,6 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(v -> {
             handleCancelClick();
         });
-        Button exportButton = findViewById(R.id.exportButton);
-        exportButton.setOnClickListener(v -> handleExportClick());
     }
 
     private void handleBrowseButtonClick() {
@@ -125,12 +123,6 @@ public class OrdersPlacedActivity extends AppCompatActivity {
             ordersAdapter.removeOrder(selectedOrder);
             ordersAdapter.setSelectedPosition(-1);
         }
-    }
-    private void handleExportClick() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, "orders.txt");
-        startActivityForResult(intent, 1);
     }
 
     @Override
