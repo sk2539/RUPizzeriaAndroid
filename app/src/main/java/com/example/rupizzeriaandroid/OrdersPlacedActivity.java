@@ -80,7 +80,7 @@ public class OrdersPlacedActivity extends AppCompatActivity {
     }
 
     private void handleBrowseButtonClick() {
-        int selectedPosition = ordersListView.getCheckedItemPosition();
+        int selectedPosition = ordersAdapter.getSelectedPosition();
         Log.d("ListView", "Selected Position: " + selectedPosition);
         if (selectedPosition == ListView.INVALID_POSITION) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
