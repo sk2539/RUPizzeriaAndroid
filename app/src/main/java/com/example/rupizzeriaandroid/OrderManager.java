@@ -35,4 +35,8 @@ public class OrderManager {
     public void clearOrders() {
         orders.clear();
     }
+
+    public int getCurrOrderNumber(){
+        return orderNumber;
+    }
 }

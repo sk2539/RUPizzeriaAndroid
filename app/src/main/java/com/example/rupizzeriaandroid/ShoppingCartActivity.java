@@ -43,7 +43,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
         orderNumberText = findViewById(R.id.orderNumberText);
-        orderNumberText.setText(String.valueOf(orderNumber));
+        orderNumberText.setText(String.valueOf(OrderManager.getInstance().getCurrOrderNumber()));
         numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         removePizzaButton = findViewById(R.id.removePizzaButton);
         clearOrderButton = findViewById(R.id.clearOrderButton);
