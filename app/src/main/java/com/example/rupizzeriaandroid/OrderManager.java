@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class OrderManager {
     private static OrderManager instance;
     private final ArrayList<Order> orders = new ArrayList<>();
+    private int orderNumber = 1;
 
     private OrderManager() {}
 
@@ -13,6 +14,10 @@ public class OrderManager {
             instance = new OrderManager();
         }
         return instance;
+    }
+
+    public synchronized int generateOrderNumber() {
+        return orderNumber++;
     }
 
     public void addOrder(Order order) {

@@ -25,7 +25,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private Button removePizzaButton, clearOrderButton, placeOrderButton, ordersPlacedButton;
     private int selectedPizzaPosition = -1;
     private static final double NJ_SALES_TAX = 0.06625;
-    private int orderNumber = 0;
+
+    private int orderNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         subtotalText = findViewById(R.id.subtotalText);
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
-        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
-        boolean isAppRestarted = preferences.getBoolean("isAppRestarted", true);
-        if (isAppRestarted) {
-            orderNumber = 0;
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("orderNumber", orderNumber);
-            editor.putBoolean("isAppRestarted", false);
-            editor.apply();
-        } else {
-            orderNumber = preferences.getInt("orderNumber", 0);
-        }
         orderNumberText = findViewById(R.id.orderNumberText);
         orderNumberText.setText(String.valueOf(orderNumber));
         numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
@@ -134,19 +124,17 @@ public class ShoppingCartActivity extends AppCompatActivity {
             Toast.makeText(this, "No pizzas in the cart!", Toast.LENGTH_SHORT).show();
             return;
         }
-        orderNumber+=1;
-        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("orderNumber", orderNumber);
-        editor.apply();
+        orderNumber = OrderManager.getInstance().generateOrderNumber();
         orderNumberText.setText(String.valueOf(orderNumber));
+        numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         Order order = new Order(orderNumber, pizzas);
         OrderManager.getInstance().addOrder(order);
         PizzaManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
         updateCart();
-        Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Order #" + orderNumber + " placed successfully!", Toast.LENGTH_SHORT).show();
     }
+
 
     private void updateTotals(ArrayList<Pizza> pizzas) {
         double subtotal = calculateSubtotal(pizzas);
@@ -164,16 +152,5 @@ public class ShoppingCartActivity extends AppCompatActivity {
             subtotal += pizza.price();
         }
         return subtotal;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SharedPreferences preferences = getSharedPreferences("OrderPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("orderNumber", 0);
-        editor.putBoolean("isAppRunning", false);
-        editor.apply();
-        Log.d("ShoppingCartActivity", "onDestroy called, isAppRunning set to false.");
     }
 }
