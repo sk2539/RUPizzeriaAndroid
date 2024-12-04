@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
         btnShowMenu.setOnClickListener(v -> {
             MenuPopup dialogFragment = new MenuPopup();
             dialogFragment.show(getSupportFragmentManager(), "menuDialog");
+        });
+
+        Button btnShowTop = findViewById(R.id.test);
+        btnShowTop.setOnClickListener(v -> {
+            ToppingsPopup toppingsV = new ToppingsPopup();
+            toppingsV.show(getSupportFragmentManager(), "toppingView");
         });
 
         Button btnShowOrder = findViewById(R.id.orderButton);
