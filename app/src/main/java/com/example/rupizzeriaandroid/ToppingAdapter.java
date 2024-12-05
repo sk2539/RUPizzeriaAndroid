@@ -41,12 +41,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
     public void onBindViewHolder(@NonNull ToppingViewHolder holder, int position) {
         Topping topping = toppings[position];
         holder.textView.setText(topping.toString());
-
-        // Set the image for the topping
         int imageResId = getToppingImageResource(topping);
         holder.imageView.setImageResource(imageResId);
-
-        // Update selection state
         if (selectedToppings.contains(topping)) {
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.maroon));
             holder.textView.setTextColor(Color.WHITE);
@@ -54,8 +50,6 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.darkbeige));
             holder.textView.setTextColor(Color.BLACK);
         }
-
-        // Handle topping click
         holder.itemView.setOnClickListener(v -> {
             boolean isSelected = !selectedToppings.contains(topping);
             if (isSelected) {
@@ -71,31 +65,31 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
     private int getToppingImageResource(Topping topping) {
         switch (topping) {
             case MUSHROOM:
-                return R.drawable.mushroomtopping;
+                return R.drawable.mushroom;
             case SAUSAGE:
-                return R.drawable.sausagetopping;
+                return R.drawable.sausage;
             case PEPPERONI:
-                return R.drawable.pepperonitopping;
+                return R.drawable.pepperoni;
             case GREENPEPPER:
-                return R.drawable.greenpeppertopping;
+                return R.drawable.greenpepper;
             case ONION:
-                return R.drawable.oniontopping;
+                return R.drawable.onion;
             case BBQCHICKEN:
-                return R.drawable.chickentopping;
+                return R.drawable.chicken;
             case PROVOLONE:
-                return R.drawable.provolonetopping;
+                return R.drawable.provolone;
             case CHEDDAR:
-                return R.drawable.cheddartopping;
+                return R.drawable.cheddar;
             case BEEF:
-                return R.drawable.beeftopping;
+                return R.drawable.beef;
             case HAM:
-                return R.drawable.hamtopping;
+                return R.drawable.ham;
             case BROCCOLI:
-                return R.drawable.broccolitopping;
+                return R.drawable.broccoli;
             case SPINACH:
-                return R.drawable.spinachtopping;
+                return R.drawable.spinach;
             case JALAPENO:
-                return R.drawable.jalapenotopping;
+                return R.drawable.jalapeno;
             default:
                 return 0;
         }
