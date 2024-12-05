@@ -109,6 +109,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         Toast.makeText(this, "Pizza removed successfully!", Toast.LENGTH_SHORT).show();
     }
 
+
     private void clearOrder() {
         PizzaManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
@@ -133,6 +134,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         updateCart();
         Toast.makeText(this, "Order #" + orderNumber + " placed successfully!", Toast.LENGTH_SHORT).show();
     }
+
 
     private void updateTotals(ArrayList<Pizza> pizzas) {
         double subtotal = calculateSubtotal(pizzas);

@@ -32,7 +32,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     public void onBindViewHolder(@NonNull PizzaViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Pizza pizza = pizzas.get(position);
         if (pizza != null) {
-            holder.nameTextView.setText(pizza.getClass().getSimpleName() + " - " + pizza.toString());
+            holder.nameTextView.setText(pizza.toString());
             holder.priceTextView.setText(String.format("$%.2f", pizza.price()));
         } else {
             holder.nameTextView.setText("Unknown Pizza");
