@@ -51,14 +51,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
             holder.textView.setTextColor(Color.BLACK);
         }
         holder.itemView.setOnClickListener(v -> {
-            boolean isSelected = !selectedToppings.contains(topping);
-            if (isSelected) {
-                selectedToppings.add(topping);
-            } else {
-                selectedToppings.remove(topping);
-            }
-            onToppingClickListener.onToppingClick(topping, isSelected);
-            notifyItemChanged(position);
+
         });
     }
 
