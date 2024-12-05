@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,13 +33,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
     @NonNull
     @Override
     public ToppingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView textView = new TextView(context);
-        textView.setLayoutParams(new RecyclerView.LayoutParams(
-                RecyclerView.LayoutParams.MATCH_PARENT,
-                RecyclerView.LayoutParams.WRAP_CONTENT
-        ));
-        textView.setPadding(16, 16, 16, 16);
-        return new ToppingViewHolder(textView);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.topping_item, parent, false);
+        return new ToppingViewHolder(itemView);
     }
 
     @Override
@@ -46,17 +42,21 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
         Topping topping = toppings[position];
         holder.textView.setText(topping.toString());
 
+        // Set the image for the topping
+        int imageResId = getToppingImageResource(topping);
+        holder.imageView.setImageResource(imageResId);
+
         // Update selection state
         if (selectedToppings.contains(topping)) {
-            holder.textView.setBackgroundColor(context.getResources().getColor(R.color.maroon));
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.maroon));
             holder.textView.setTextColor(Color.WHITE);
         } else {
-            holder.textView.setBackgroundColor(context.getResources().getColor(R.color.darkbeige));
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.darkbeige));
             holder.textView.setTextColor(Color.BLACK);
         }
 
         // Handle topping click
-        holder.textView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             boolean isSelected = !selectedToppings.contains(topping);
             if (isSelected) {
                 selectedToppings.add(topping);
@@ -68,17 +68,52 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
         });
     }
 
+    private int getToppingImageResource(Topping topping) {
+        switch (topping) {
+            case MUSHROOM:
+                return R.drawable.mushroomtopping;
+            case SAUSAGE:
+                return R.drawable.sausagetopping;
+            case PEPPERONI:
+                return R.drawable.pepperonitopping;
+            case GREENPEPPER:
+                return R.drawable.greenpeppertopping;
+            case ONION:
+                return R.drawable.oniontopping;
+            case BBQCHICKEN:
+                return R.drawable.chickentopping;
+            case PROVOLONE:
+                return R.drawable.provolonetopping;
+            case CHEDDAR:
+                return R.drawable.cheddartopping;
+            case BEEF:
+                return R.drawable.beeftopping;
+            case HAM:
+                return R.drawable.hamtopping;
+            case BROCCOLI:
+                return R.drawable.broccolitopping;
+            case SPINACH:
+                return R.drawable.spinachtopping;
+            case JALAPENO:
+                return R.drawable.jalapenotopping;
+            default:
+                return 0;
+        }
+    }
+
     @Override
     public int getItemCount() {
         return toppings.length;
     }
 
     static class ToppingViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
         TextView textView;
 
         public ToppingViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
+            imageView = itemView.findViewById(R.id.toppingImage);
+            textView = itemView.findViewById(R.id.toppingText);
         }
     }
 
