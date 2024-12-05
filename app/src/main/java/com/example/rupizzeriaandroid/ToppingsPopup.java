@@ -21,13 +21,9 @@ public class ToppingsPopup extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.toppingspopup, container, false);
-
         RecyclerView toppingsList = view.findViewById(R.id.toppingsList);
         Button closeButton = view.findViewById(R.id.closeButton);
-
-        // Set up RecyclerView
         toppingsList.setLayoutManager(new LinearLayoutManager(getContext()));
-
         adapter = new ToppingAdapter(getContext(), (topping, isSelected) -> {
             if (isSelected) {
                 if (selectedToppings.size() >= 7) {
@@ -39,16 +35,12 @@ public class ToppingsPopup extends DialogFragment {
                 selectedToppings.remove(topping);
             }
         });
-
         toppingsList.setAdapter(adapter);
-
-        // Close button to dismiss the popup
         closeButton.setOnClickListener(v -> dismiss());
-
         return view;
     }
 
     private void showMaxToppingsAlert() {
-;
+        ;
     }
 }

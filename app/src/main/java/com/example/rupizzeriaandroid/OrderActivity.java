@@ -31,6 +31,11 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * OrderActivity manages the pizza ordering process in the RU Pizzeria app.
+ * It provides functionality for selecting pizza styles, types, sizes, and toppings,
+ * and calculates the pizza price based on the user’s choices.
+ */
 public class OrderActivity extends AppCompatActivity {
     private Spinner typeSpinner;
     private Spinner pizzaSpinner;
@@ -41,6 +46,12 @@ public class OrderActivity extends AppCompatActivity {
             mushroomLayer, chickenLayer, provoloneLayer, cheddarLayer,
             beefLayer, hamLayer, broccoliLayer, spinachLayer, jalapenoLayer;
 
+    /**
+     * Called when the activity is first created. Sets up UI elements, spinners,
+     * buttons, and event listeners for managing the pizza ordering process.
+     *
+     * @param savedInstanceState the saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +97,9 @@ public class OrderActivity extends AppCompatActivity {
         onCreate2();
     }
 
+    /**
+     * Initializes topping selection chips, size radio buttons, and sets up event listeners.
+     */
     private void onCreate2() {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         chipGroup.setEnabled(false);
@@ -137,6 +151,12 @@ public class OrderActivity extends AppCompatActivity {
         spinachLayer = findViewById(R.id.spinachLayer);
         jalapenoLayer = findViewById(R.id.jalapenoLayer);
     }
+
+    /**
+     * Sets the image for the specified topping in the Build Your Own (BYO) pizza.
+     *
+     * @param topping The name of the topping to set the image for.
+     */
     private void setImageforBYO(String topping) {
         switch (topping) {
             case "Sausage":
@@ -181,6 +201,11 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Removes the image for the specified topping in the Build Your Own (BYO) pizza.
+     *
+     * @param topping The name of the topping to remove the image for.
+     */
     private void removeImageForBYO(String topping) {
         switch (topping) {
             case "Sausage":
@@ -225,6 +250,10 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clears all topping images and resets the number of selected toppings to zero.
+     * This method is useful when starting a new pizza order.
+     */
     private void clearAllToppingsImages() {
         sausageLayer.setImageResource(0);
         pepperoniLayer.setImageResource(0);
@@ -242,6 +271,9 @@ public class OrderActivity extends AppCompatActivity {
         numberOfToppings = 0;
     }
 
+    /**
+     * Displays an alert dialog when the maximum number of toppings (7) is reached.
+     */
     private void showMaxToppingsAlert() {
         new AlertDialog.Builder(OrderActivity.this)
                 .setTitle("Maximum Toppings Reached")
@@ -254,6 +286,12 @@ public class OrderActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Retrieves the corresponding Topping enum value based on the topping name.
+     *
+     * @param toppingName The name of the topping as a string.
+     * @return The corresponding Topping enum value, or null if the topping is not found.
+     */
     private Topping getToppingSelected(String toppingName) {
         switch (toppingName.toUpperCase()) {
             case "SAUSAGE":
@@ -287,6 +325,9 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the pizza image and details based on the selected pizza style and type.
+     */
     private void updatePizzaImage() {
         EditText crustText = findViewById(R.id.crustType);
         EditText priceText = findViewById(R.id.priceText);
@@ -322,6 +363,17 @@ public class OrderActivity extends AppCompatActivity {
         chipGroup.setEnabled(false);
     }
 
+    /**
+     * Configures the pizza display based on the selected style, crust, image, and toppings.
+     *
+     * @param isChicagoStyle Indicates if the selected style is Chicago.
+     * @param crustText      The EditText to display the crust type.
+     * @param chicagoImage   The image resource ID for Chicago-style pizza.
+     * @param nyImage        The image resource ID for New York-style pizza.
+     * @param chicagoCrust   The crust type for Chicago-style pizza.
+     * @param nyCrust        The crust type for New York-style pizza.
+     * @param toppingsToAdd  The toppings to add to the pizza.
+     */
     private void setupPizza(boolean isChicagoStyle, EditText crustText, int chicagoImage, int nyImage,
                             String chicagoCrust, String nyCrust, Topping... toppingsToAdd) {
         pizzaImageView.setImageResource(isChicagoStyle ? chicagoImage : nyImage);
@@ -332,6 +384,9 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Resets the pizza display to its default state, clearing toppings and images.
+     */
     private void resetPizzaDisplay() {
         disableChips(false);
         clearAllToppingsImages();
@@ -339,6 +394,9 @@ public class OrderActivity extends AppCompatActivity {
         pizzaImageView.setImageDrawable(null);
     }
 
+    /**
+     * Recalculates the price of the pizza based on its size, style, and toppings.
+     */
     private void recalculatePrice() {
         EditText priceText = findViewById(R.id.priceText);
         int typePosition = typeSpinner.getSelectedItemPosition();
@@ -374,11 +432,16 @@ public class OrderActivity extends AppCompatActivity {
         Size selectedSize = getSizeUI();
         if (selectedSize != null) {
             pizza.setSize(selectedSize);
-            double totalPrice = pizza.price(); // Calculate the updated price
+            double totalPrice = pizza.price();
             priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
         }
     }
 
+    /**
+     * Retrieves the selected pizza size based on the radio button selection.
+     *
+     * @return The selected size as a Size enum, or null if no size is selected.
+     */
     private Size setSizeUI() {
         RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
         int selectedId = radioGroupSize.getCheckedRadioButtonId();
@@ -399,6 +462,9 @@ public class OrderActivity extends AppCompatActivity {
 
     ArrayList<Pizza> pizzas = new ArrayList<>();
 
+    /**
+     * Handles the action of adding a pizza to the order.
+     */
     private void onAddToOrderClick() {
         clearAllToppingsImages();
         int typePosition = typeSpinner.getSelectedItemPosition();
@@ -415,16 +481,16 @@ public class OrderActivity extends AppCompatActivity {
         PizzaFactory pizzaFactory = isChicagoStyle ? new ChicagoPizza() : new NYPizza();
         Pizza pizza = null;
         switch (pizzaPosition) {
-            case 1: // Deluxe
+            case 1:
                 pizza = pizzaFactory.createDeluxe();
                 break;
-            case 2: // BBQ Chicken
+            case 2:
                 pizza = pizzaFactory.createBBQChicken();
                 break;
-            case 3: // Meatzza
+            case 3:
                 pizza = pizzaFactory.createMeatzza();
                 break;
-            case 4: // Build Your Own
+            case 4:
                 pizza = pizzaFactory.createBuildYourOwn();
                 pizza.setToppings(new ArrayList<>(toppings));
                 break;
@@ -445,9 +511,8 @@ public class OrderActivity extends AppCompatActivity {
         }
         pizza.setCrust(selectedCrust);
         EditText priceText = findViewById(R.id.priceText);
-        double totalPrice = pizza.price(); // Assuming price() calculates the total price
+        double totalPrice = pizza.price();
         priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
-        // remember to add to order too!
         PizzaManager.getInstance().addPizza(pizza);
         Log.d("PizzaList", "Current pizzas: " + pizzas.toString());
         Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
@@ -456,6 +521,9 @@ public class OrderActivity extends AppCompatActivity {
         disableChips(true);
     }
 
+    /**
+     * Clears all input fields and selections to reset the UI for a new order.
+     */
     private void clearInputs() {
         EditText pizzaTypeEditText = findViewById(R.id.crustType);
         pizzaTypeEditText.setText("");
@@ -466,6 +534,11 @@ public class OrderActivity extends AppCompatActivity {
         toppings.clear();
     }
 
+    /**
+     * Retrieves the selected pizza size from the radio group UI.
+     *
+     * @return The selected size as a Size enum, or null if no size is selected.
+     */
     private Size getSizeUI() {
         RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
         int checkedId = radioGroupSize.getCheckedRadioButtonId();
@@ -487,6 +560,12 @@ public class OrderActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /**
+     * Determines the pizza crust type based on user input in the EditText field.
+     *
+     * @return The corresponding Crust enum value, or null if the input is invalid.
+     */
     private Crust setCrustUI() {
         EditText crust = findViewById(R.id.crustType);
         String crustText = crust.getText().toString().trim();
@@ -508,6 +587,11 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Disables or enables the topping selection chips.
+     *
+     * @param enable Boolean value to enable or disable the chips.
+     */
     private void disableChips(boolean enable) {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -516,6 +600,11 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Enables or disables the topping selection chips.
+     *
+     * @param enable Boolean value to enable or disable the chips.
+     */
     private void enableChips(boolean enable) {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -524,6 +613,9 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clears all topping selections, resets chip styles, and clears the toppings list.
+     */
     private void clearAllSelections() {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -532,14 +624,16 @@ public class OrderActivity extends AppCompatActivity {
             chip.setChipBackgroundColorResource(R.color.darkbeige);
             chip.setTextColor(Color.BLACK);
         }
-
-        // Clear the toppings list
         toppings.clear();
         numberOfToppings = 0;
         Log.d("Toppings", "Cleared all selections: " + toppings.toString());
     }
 
-
+    /**
+     * Selects a topping visually by updating its chip and adding it to the toppings list.
+     *
+     * @param topping The topping to be selected.
+     */
     private void selectTopping(Topping topping) {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         toppings.add(topping);

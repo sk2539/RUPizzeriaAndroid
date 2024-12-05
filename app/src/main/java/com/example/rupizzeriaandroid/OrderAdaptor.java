@@ -9,39 +9,75 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
+/**
+ * Adapter class for managing and displaying a list of orders in a ListView.
+ * Provides functionality for handling order selection and removal.
+ */
 public class OrderAdaptor extends BaseAdapter {
     private Context context;
     private ArrayList<Order> orders;
 
     private int selectedPosition = -1;
 
+    /**
+     * Constructor for the OrderAdaptor.
+     *
+     * @param context The application context.
+     * @param orders  The list of orders to display. If null, an empty list is initialized.
+     */
     public OrderAdaptor(Context context, ArrayList<Order> orders) {
         this.context = context;
         this.orders = orders != null ? orders : new ArrayList<>();
     }
 
+    /**
+     * Removes an order from the list and updates the ListView.
+     *
+     * @param order The order to remove.
+     */
     public void removeOrder(Order order) {
         orders.remove(order);
         notifyDataSetChanged();
     }
 
-
+    /**
+     * @return The number of orders in the list.
+     */
     @Override
     public int getCount() {
         return orders.size();
     }
 
+    /**
+     * Retrieves the order at the specified position.
+     *
+     * @param position The position of the order in the list.
+     * @return The order object at the specified position.
+     */
     @Override
     public Object getItem(int position) {
         return orders.get(position);
     }
 
+    /**
+     * Retrieves the unique ID of the order at the specified position.
+     *
+     * @param position The position of the order in the list.
+     * @return The unique order number (ID) of the order.
+     */
     @Override
     public long getItemId(int position) {
         return orders.get(position).getOrderNum();
     }
 
+    /**
+     * Creates or updates a view for an order at the specified position.
+     *
+     * @param position    The position of the order in the list.
+     * @param convertView The recycled view for reuse (if available).
+     * @param parent      The parent view group.
+     * @return The view representing the order.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -76,10 +112,19 @@ public class OrderAdaptor extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * @return The currently selected position in the list.
+     */
     public int getSelectedPosition() {
         return selectedPosition;
     }
 
+    /**
+     * Toggles the selection of an item in the list.
+     * If the selected item is clicked again, the selection is cleared.
+     *
+     * @param position The position of the item to toggle selection for.
+     */
     public void toggleSelection(int position) {
         if (selectedPosition == position) {
             selectedPosition = -1;
@@ -89,11 +134,19 @@ public class OrderAdaptor extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * Sets the currently selected position and updates the ListView.
+     *
+     * @param position The position to set as selected.
+     */
     public void setSelectedPosition(int position) {
         this.selectedPosition = position;
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class for efficient recycling of views in the ListView.
+     */
     static class ViewHolder {
         TextView orderNumberText;
         TextView pizzaCountText;
