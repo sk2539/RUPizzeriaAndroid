@@ -24,7 +24,6 @@ public class ToppingsPopup extends DialogFragment {
 
         RecyclerView toppingsList = view.findViewById(R.id.toppingsList);
         Button closeButton = view.findViewById(R.id.closeButton);
-        Button toppingsButton = view.findViewById(R.id.toppingsButton);
 
         // Set up RecyclerView
         toppingsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -46,17 +45,10 @@ public class ToppingsPopup extends DialogFragment {
         // Close button to dismiss the popup
         closeButton.setOnClickListener(v -> dismiss());
 
-        // "Set Toppings" button to confirm selection
-        toppingsButton.setOnClickListener(v -> {
-            // Do something with the selected toppings
-            selectedToppings = new ArrayList<>(adapter.getSelectedToppings());
-            dismiss();
-        });
-
         return view;
     }
 
     private void showMaxToppingsAlert() {
-        // Implement an alert dialog to notify the user about max toppings
+;
     }
 }
