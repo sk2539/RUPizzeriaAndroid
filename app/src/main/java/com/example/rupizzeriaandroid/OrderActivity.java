@@ -41,7 +41,6 @@ public class OrderActivity extends AppCompatActivity {
             mushroomLayer, chickenLayer, provoloneLayer, cheddarLayer,
             beefLayer, hamLayer, broccoliLayer, spinachLayer, jalapenoLayer;
 
-    // shorten this method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +83,10 @@ public class OrderActivity extends AppCompatActivity {
             Intent intent = new Intent(OrderActivity.this, ShoppingCartActivity.class);
             startActivity(intent);
         });
+        onCreate2();
+    }
+
+    private void onCreate2() {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         chipGroup.setEnabled(false);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
