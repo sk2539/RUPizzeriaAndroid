@@ -1,9 +1,11 @@
 package com.example.rupizzeriaandroid;
 
-import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,92 +25,101 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class OrderActivity extends AppCompatActivity {
-
     private Spinner typeSpinner;
     private Spinner pizzaSpinner;
     private ImageView pizzaImageView;
-
-    private List<Topping> selectedToppings = new ArrayList<>();
+    ArrayList<Topping> toppings = new ArrayList<>();
     private int numberOfToppings = 0;
-
     private ImageView sausageLayer, pepperoniLayer, greenpepperLayer, onionLayer,
             mushroomLayer, chickenLayer, provoloneLayer, cheddarLayer,
             beefLayer, hamLayer, broccoliLayer, spinachLayer, jalapenoLayer;
 
-    @SuppressLint("MissingInflatedId")
+    // shorten this method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order);
-
-        // Window insets for modern UI
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         typeSpinner = findViewById(R.id.chooseType);
+        String[] orderOptions = {"Select pizza style", "Chicago Pizza", "New York Pizza"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                orderOptions
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(adapter);
         pizzaSpinner = findViewById(R.id.choosePizzaType);
+        String[] pizzaTypeOptions = {"Select pizza type", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                pizzaTypeOptions
+        );
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pizzaSpinner.setAdapter(adapter2);
         pizzaImageView = findViewById(R.id.mainImage);
-
-        setupSpinners();
-
-        // Home button
+        typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+        pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
         ImageButton imageButton = findViewById(R.id.homeButton);
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrderActivity.this, MainActivity.class);
             startActivity(intent);
         });
-
-        // Shopping cart button
         ImageButton shoppingCart = findViewById(R.id.shoppingCart);
         shoppingCart.setOnClickListener(v -> {
             Intent intent = new Intent(OrderActivity.this, ShoppingCartActivity.class);
             startActivity(intent);
         });
-
-        // Add to order button
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        chipGroup.setEnabled(false);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setOnClickListener(view -> {
+                if (numberOfToppings >= 7 && !chip.isSelected()) {
+                    showMaxToppingsAlert();
+                    return;
+                }
+                if (!chip.isSelected()) {
+                    numberOfToppings++;
+                    chip.setSelected(true);
+                    toppings.add(getToppingSelected(chip.getText().toString()));
+                    chip.setChipBackgroundColorResource(R.color.maroon);
+                    chip.setTextColor(Color.WHITE);
+                    setImageforBYO(chip.getText().toString());
+                    Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
+                } else {
+                    numberOfToppings--;
+                    chip.setSelected(false);
+                    toppings.remove(getToppingSelected(chip.getText().toString()));
+                    chip.setChipBackgroundColorResource(R.color.darkbeige);
+                    chip.setTextColor(Color.BLACK);
+                    removeImageForBYO(chip.getText().toString());
+                    Log.d("ToppingCount", "Number of toppings selected: " + numberOfToppings);
+                }
+                Log.d("Toppings", "Current toppings: " + toppings.toString());
+                recalculatePrice();
+            });
+        }
         Button addToOrderButton = findViewById(R.id.addToOrderButton);
         addToOrderButton.setOnClickListener(v -> onAddToOrderClick());
-
-        // Trigger ToppingsPopup
-        Button selectToppingsButton = findViewById(R.id.SelectToppingsButton); // Add this button in activity_order.xml
-        selectToppingsButton.setOnClickListener(v -> {
-            ToppingsPopup toppingsPopup = new ToppingsPopup();
-            toppingsPopup.show(getSupportFragmentManager(), "ToppingsPopup");
+        RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
+        radioGroupSize.setOnCheckedChangeListener((group, checkedId) -> {
+            recalculatePrice();
         });
-
-        // Initialize pizza layers
-        initializeLayers();
-    }
-
-    private void setupSpinners() {
-        String[] orderOptions = {"Select pizza style", "Chicago Pizza", "New York Pizza"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, orderOptions
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(adapter);
-
-        String[] pizzaTypeOptions = {"Select pizza type", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, pizzaTypeOptions
-        );
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pizzaSpinner.setAdapter(adapter2);
-
-        typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
-        pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
-    }
-
-    private void initializeLayers() {
         sausageLayer = findViewById(R.id.sausageLayer);
         pepperoniLayer = findViewById(R.id.pepperoniLayer);
         greenpepperLayer = findViewById(R.id.greenPepperLayer);
@@ -123,7 +134,6 @@ public class OrderActivity extends AppCompatActivity {
         spinachLayer = findViewById(R.id.spinachLayer);
         jalapenoLayer = findViewById(R.id.jalapenoLayer);
     }
-
     private void setImageforBYO(String topping) {
         switch (topping) {
             case "Sausage":
@@ -230,44 +240,118 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void showMaxToppingsAlert() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(OrderActivity.this)
                 .setTitle("Maximum Toppings Reached")
                 .setMessage("You can only select up to 7 toppings.")
-                .setPositiveButton("OK", (dialog, id) -> dialog.dismiss())
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
+    }
+
+    private Topping getToppingSelected(String toppingName) {
+        switch (toppingName.toUpperCase()) {
+            case "SAUSAGE":
+                return Topping.SAUSAGE;
+            case "PEPPERONI":
+                return Topping.PEPPERONI;
+            case "GREENPEPPER":
+                return Topping.GREENPEPPER;
+            case "ONION":
+                return Topping.ONION;
+            case "MUSHROOM":
+                return Topping.MUSHROOM;
+            case "BBQ CHICKEN":
+                return Topping.BBQCHICKEN;
+            case "PROVOLONE":
+                return Topping.PROVOLONE;
+            case "CHEDDAR":
+                return Topping.CHEDDAR;
+            case "BEEF":
+                return Topping.BEEF;
+            case "HAM":
+                return Topping.HAM;
+            case "BROCCOLI":
+                return Topping.BROCCOLI;
+            case "SPINACH":
+                return Topping.SPINACH;
+            case "JALAPENO":
+                return Topping.JALAPENO;
+            default:
+                return null;
+        }
+    }
+
+    private void updatePizzaImage() {
+        EditText crustText = findViewById(R.id.crustType);
+        EditText priceText = findViewById(R.id.priceText);
+        int typePosition = typeSpinner.getSelectedItemPosition();
+        int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
+        boolean isChicagoStyle = (typePosition == 1);
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        clearAllToppingsImages();
+        clearAllSelections();
+        disableChips(false);
+        switch (pizzaPosition) {
+            case 1:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagodeluxepizza, R.drawable.nydeluxe, "Deep Dish", "Brooklyn",
+                        Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.ONION, Topping.MUSHROOM);
+                break;
+            case 2:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagobbqchicken, R.drawable.nybbqchicken, "Pan", "Thin",
+                        Topping.BBQCHICKEN, Topping.GREENPEPPER, Topping.PROVOLONE, Topping.CHEDDAR);
+                break;
+            case 3:
+                setupPizza(isChicagoStyle, crustText, R.drawable.chicagomeatzza, R.drawable.nymeattza, "Stuffed", "Hand-tossed",
+                        Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.BEEF, Topping.HAM);
+                break;
+            case 4:
+                pizzaImageView.setImageResource(R.drawable.buildyourownpizza);
+                crustText.setText(isChicagoStyle ? "Pan" : "Hand-tossed");
+                enableChips(true);
+                break;
+            default:
+                resetPizzaDisplay();
+                break;
+        }
+        chipGroup.setEnabled(false);
+    }
+
+    private void setupPizza(boolean isChicagoStyle, EditText crustText, int chicagoImage, int nyImage,
+                            String chicagoCrust, String nyCrust, Topping... toppingsToAdd) {
+        pizzaImageView.setImageResource(isChicagoStyle ? chicagoImage : nyImage);
+        crustText.setText(isChicagoStyle ? chicagoCrust : nyCrust);
+        for (Topping topping : toppingsToAdd) {
+            selectTopping(topping);
+            toppings.add(topping);
+        }
+    }
+
+    private void resetPizzaDisplay() {
+        disableChips(false);
+        clearAllToppingsImages();
+        clearAllSelections();
+        pizzaImageView.setImageDrawable(null);
     }
 
     private void recalculatePrice() {
         EditText priceText = findViewById(R.id.priceText);
-        if (typeSpinner.getSelectedItemPosition() == 0 || pizzaSpinner.getSelectedItemPosition() == 0) {
+        int typePosition = typeSpinner.getSelectedItemPosition();
+        if (typePosition == 0) {
             priceText.setText("");
             return;
         }
-
-        double basePrice = 10.0; // Example base price
-        basePrice += selectedToppings.size() * 1.5; // Example topping price
-        priceText.setText(String.format(Locale.getDefault(), "$%.2f", basePrice));
-    }
-
-    private void onAddToOrderClick() {
-        if (typeSpinner.getSelectedItemPosition() == 0 || pizzaSpinner.getSelectedItemPosition() == 0) {
-            Toast.makeText(this, "Please select pizza style and type.", Toast.LENGTH_SHORT).show();
+        int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
+        if (pizzaPosition == 0) {
+            priceText.setText("");
             return;
         }
-        Pizza pizza = createPizza();
-        if (pizza != null) {
-            PizzaManager.getInstance().addPizza(pizza);
-            Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
-            clearAllToppingsImages();
-        }
-    }
-
-    private Pizza createPizza() {
-        boolean isChicagoStyle = typeSpinner.getSelectedItemPosition() == 1;
+        boolean isChicagoStyle = (typePosition == 1);
         PizzaFactory pizzaFactory = isChicagoStyle ? new ChicagoPizza() : new NYPizza();
         Pizza pizza = null;
-
-        switch (pizzaSpinner.getSelectedItemPosition()) {
+        switch (pizzaPosition) {
             case 1:
                 pizza = pizzaFactory.createDeluxe();
                 break;
@@ -279,14 +363,104 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4:
                 pizza = pizzaFactory.createBuildYourOwn();
-                pizza.setToppings(new ArrayList<>(selectedToppings));
+                pizza.setToppings(new ArrayList<>(toppings));
                 break;
+            default:
+                return;
         }
+        Size selectedSize = getSizeUI();
+        if (selectedSize != null) {
+            pizza.setSize(selectedSize);
+            double totalPrice = pizza.price(); // Calculate the updated price
+            priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
+        }
+    }
 
-        if (pizza != null) {
-            pizza.setSize(getSizeUI());
+    private Size setSizeUI() {
+        RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
+        int selectedId = radioGroupSize.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            RadioButton selectedButton = findViewById(selectedId);
+            String sizeText = selectedButton.getText().toString().toUpperCase();
+            switch (sizeText) {
+                case "SMALL":
+                    return Size.SMALL;
+                case "MEDIUM":
+                    return Size.MEDIUM;
+                case "LARGE":
+                    return Size.LARGE;
+            }
         }
-        return pizza;
+        return null;
+    }
+
+    ArrayList<Pizza> pizzas = new ArrayList<>();
+
+    private void onAddToOrderClick() {
+        clearAllToppingsImages();
+        int typePosition = typeSpinner.getSelectedItemPosition();
+        if (typePosition == 0) {
+            Toast.makeText(this, "Please select a pizza style.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean isChicagoStyle = (typePosition == 1);
+        int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
+        if (pizzaPosition == 0) {
+            Toast.makeText(this, "Please select a pizza type.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PizzaFactory pizzaFactory = isChicagoStyle ? new ChicagoPizza() : new NYPizza();
+        Pizza pizza = null;
+        switch (pizzaPosition) {
+            case 1: // Deluxe
+                pizza = pizzaFactory.createDeluxe();
+                break;
+            case 2: // BBQ Chicken
+                pizza = pizzaFactory.createBBQChicken();
+                break;
+            case 3: // Meatzza
+                pizza = pizzaFactory.createMeatzza();
+                break;
+            case 4: // Build Your Own
+                pizza = pizzaFactory.createBuildYourOwn();
+                pizza.setToppings(new ArrayList<>(toppings));
+                break;
+            default:
+                Toast.makeText(this, "Invalid pizza type selected.", Toast.LENGTH_SHORT).show();
+                return;
+        }
+        Size selectedSize = getSizeUI();
+        if (selectedSize == null) {
+            Toast.makeText(this, "Please select a size.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        pizza.setSize(selectedSize);
+        Crust selectedCrust = setCrustUI();
+        if (selectedCrust == null) {
+            Toast.makeText(this, "Invalid crust type.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        pizza.setCrust(selectedCrust);
+        EditText priceText = findViewById(R.id.priceText);
+        double totalPrice = pizza.price(); // Assuming price() calculates the total price
+        priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
+        // remember to add to order too!
+        PizzaManager.getInstance().addPizza(pizza);
+        Log.d("PizzaList", "Current pizzas: " + pizzas.toString());
+        Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
+        clearAllSelections();
+        clearInputs();
+        disableChips(true);
+    }
+
+    private void clearInputs() {
+        EditText pizzaTypeEditText = findViewById(R.id.crustType);
+        pizzaTypeEditText.setText("");
+        typeSpinner.setSelection(0);
+        pizzaSpinner.setSelection(0);
+        RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
+        radioGroupSize.clearCheck();
+        toppings.clear();
     }
 
     private Size getSizeUI() {
@@ -294,11 +468,94 @@ public class OrderActivity extends AppCompatActivity {
         int checkedId = radioGroupSize.getCheckedRadioButtonId();
         if (checkedId != -1) {
             RadioButton selectedButton = findViewById(checkedId);
-            return Size.valueOf(selectedButton.getText().toString().toUpperCase());
+            String sizeText = selectedButton.getText().toString().toUpperCase();
+
+            switch (sizeText) {
+                case "SMALL":
+                    return Size.SMALL;
+                case "MEDIUM":
+                    return Size.MEDIUM;
+                case "LARGE":
+                    return Size.LARGE;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
-        return null;
+    }
+    private Crust setCrustUI() {
+        EditText crust = findViewById(R.id.crustType);
+        String crustText = crust.getText().toString().trim();
+        if (crustText.equalsIgnoreCase("Deep Dish")) {
+            return Crust.DEEPDISH;
+        } else if (crustText.equalsIgnoreCase("Pan")) {
+            return Crust.PAN;
+        } else if (crustText.equalsIgnoreCase("Stuffed")) {
+            return Crust.STUFFED;
+        } else if (crustText.equalsIgnoreCase("Brooklyn")) {
+            return Crust.BROOKLYN;
+        } else if (crustText.equalsIgnoreCase("Thin")) {
+            return Crust.THIN;
+        } else if (crustText.equalsIgnoreCase("Hand-tossed")) {
+            return Crust.HANDTOSSED;
+        } else {
+            Toast.makeText(this, "Invalid crust type: " + crust, Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
+    private void disableChips(boolean enable) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setEnabled(enable);
+        }
+    }
+
+    private void enableChips(boolean enable) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setEnabled(enable);
+        }
+    }
+
+    private void clearAllSelections() {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setSelected(false);
+            chip.setChipBackgroundColorResource(R.color.darkbeige);
+            chip.setTextColor(Color.BLACK);
+        }
+
+        // Clear the toppings list
+        toppings.clear();
+        numberOfToppings = 0;
+        Log.d("Toppings", "Cleared all selections: " + toppings.toString());
+    }
+
+
+    private void selectTopping(Topping topping) {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        toppings.add(topping);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            if (chip.getText().toString().equalsIgnoreCase(topping.name())) {
+                chip.setSelected(true);
+                chip.setChipBackgroundColorResource(R.color.maroon);
+                chip.setTextColor(Color.WHITE);
+            }
+        }
+    }
+
+
+    /**
+     * Creates a listener for both spinners to trigger image updates.
+     *
+     * @return The listener.
+     */
     private AdapterView.OnItemSelectedListener createOnItemSelectedListener() {
         return new AdapterView.OnItemSelectedListener() {
             @Override
@@ -309,31 +566,9 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(OrderActivity.this, "Please make a selection.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderActivity.this, "Please make a selection", Toast.LENGTH_SHORT).show();
             }
         };
     }
 
-    private void updatePizzaImage() {
-        int typePosition = typeSpinner.getSelectedItemPosition();
-        int pizzaPosition = pizzaSpinner.getSelectedItemPosition();
-
-        if (typePosition == 1 && pizzaPosition == 1) {
-            pizzaImageView.setImageResource(R.drawable.chicagodeluxepizza);
-        } else if (typePosition == 2 && pizzaPosition == 1) {
-            pizzaImageView.setImageResource(R.drawable.nydeluxe);
-        } else if (typePosition == 1 && pizzaPosition == 2) {
-            pizzaImageView.setImageResource(R.drawable.chicagobbqchicken);
-        } else if (typePosition == 2 && pizzaPosition == 2) {
-            pizzaImageView.setImageResource(R.drawable.nybbqchicken);
-        } else if (typePosition == 1 && pizzaPosition == 3) {
-            pizzaImageView.setImageResource(R.drawable.chicagomeatzza);
-        } else if (typePosition == 2 && pizzaPosition == 3) {
-            pizzaImageView.setImageResource(R.drawable.nymeattza);
-        } else if (pizzaPosition == 4) {
-            pizzaImageView.setImageResource(R.drawable.buildyourownpizza);
-        } else {
-            pizzaImageView.setImageResource(0); // No selection
-        }
-    }
 }
