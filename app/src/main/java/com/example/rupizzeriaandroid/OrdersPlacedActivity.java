@@ -42,7 +42,7 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         ordersListView.setAdapter(ordersAdapter);
         ordersListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         handleAllButtons();
-        ArrayList<Order> orders = OrderManager.getInstance().getOrders();
+        ArrayList<Order> orders = PizzaOrderManager.getInstance().getOrders();
         if (orders.isEmpty()) {
             Toast.makeText(this, "No orders placed yet!", Toast.LENGTH_SHORT).show();
         } else {
@@ -119,7 +119,7 @@ public class OrdersPlacedActivity extends AppCompatActivity {
         }
         Order selectedOrder = (Order) ordersAdapter.getItem(selectedPosition);
         if (selectedOrder != null) {
-            OrderManager.getInstance().removeOrder(selectedOrder);
+            PizzaOrderManager.getInstance().removeOrder(selectedOrder);
             ordersAdapter.removeOrder(selectedOrder);
             ordersAdapter.setSelectedPosition(-1);
         }
@@ -134,7 +134,7 @@ public class OrdersPlacedActivity extends AppCompatActivity {
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getContentResolver().openOutputStream(uri)))) {
                     writer.write("Order Number\tTotal Price\tPizzas\n");
                     writer.write("-------------------------------------------------\n");
-                    for (Order order : OrderManager.getInstance().getOrders()) {
+                    for (Order order : PizzaOrderManager.getInstance().getOrders()) {
                         writer.write("Order #" + order.getOrderNum() + "\t");
                         double total = order.getOrder().stream().mapToDouble(Pizza::price).sum();
                         writer.write(String.format("$%.2f\t", total));

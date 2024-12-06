@@ -43,7 +43,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         taxText = findViewById(R.id.taxText);
         totalText = findViewById(R.id.totalText);
         orderNumberText = findViewById(R.id.orderNumberText);
-        orderNumberText.setText(String.valueOf(OrderManager.getInstance().getCurrOrderNumber()));
+        orderNumberText.setText(String.valueOf(PizzaOrderManager.getInstance().getCurrOrderNumber()));
         numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         removePizzaButton = findViewById(R.id.removePizzaButton);
         clearOrderButton = findViewById(R.id.clearOrderButton);
@@ -54,7 +54,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         removePizzaButton.setOnClickListener(v -> removeSelectedPizza());
         clearOrderButton.setOnClickListener(v -> clearOrder());
         placeOrderButton.setOnClickListener(v -> placeOrder());
-        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
+        numberOfPizzasText.setText(String.valueOf(PizzaOrderManager.getInstance().getPizzas().size()));
     }
 
     private void setButtons() {
@@ -82,7 +82,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     }
 
     private void updateCart() {
-        ArrayList<Pizza> pizzas = PizzaManager.getInstance().getPizzas();
+        ArrayList<Pizza> pizzas = PizzaOrderManager.getInstance().getPizzas();
         PizzaAdapter adapter;
         if (pizzasList.getAdapter() != null) {
             adapter = (PizzaAdapter) pizzasList.getAdapter();
@@ -103,32 +103,32 @@ public class ShoppingCartActivity extends AppCompatActivity {
             return;
         }
         Pizza removedPizza = adapter.getSelectedPizza();
-        PizzaManager.getInstance().removePizza(removedPizza);
-        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
+        PizzaOrderManager.getInstance().removePizza(removedPizza);
+        numberOfPizzasText.setText(String.valueOf(PizzaOrderManager.getInstance().getPizzas().size()));
         updateCart();
         Toast.makeText(this, "Pizza removed successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private void clearOrder() {
-        PizzaManager.getInstance().clearPizzas();
+        PizzaOrderManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
-        numberOfPizzasText.setText(String.valueOf(PizzaManager.getInstance().getPizzas().size()));
+        numberOfPizzasText.setText(String.valueOf(PizzaOrderManager.getInstance().getPizzas().size()));
         updateCart();
         Toast.makeText(this, "Order cleared successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private void placeOrder() {
-        ArrayList<Pizza> pizzas = PizzaManager.getInstance().getPizzas();
+        ArrayList<Pizza> pizzas = PizzaOrderManager.getInstance().getPizzas();
         if (pizzas.isEmpty()) {
             Toast.makeText(this, "No pizzas in the cart!", Toast.LENGTH_SHORT).show();
             return;
         }
-        orderNumber = OrderManager.getInstance().generateOrderNumber();
+        orderNumber = PizzaOrderManager.getInstance().generateOrderNumber();
         orderNumberText.setText(String.valueOf(orderNumber));
         numberOfPizzasText = findViewById(R.id.numberOfPizzasText);
         Order order = new Order(orderNumber, pizzas);
-        OrderManager.getInstance().addOrder(order);
-        PizzaManager.getInstance().clearPizzas();
+        PizzaOrderManager.getInstance().addOrder(order);
+        PizzaOrderManager.getInstance().clearPizzas();
         selectedPizzaPosition = -1;
         updateCart();
         Toast.makeText(this, "Order #" + orderNumber + " placed successfully!", Toast.LENGTH_SHORT).show();

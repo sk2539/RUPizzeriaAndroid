@@ -513,7 +513,7 @@ public class OrderActivity extends AppCompatActivity {
         EditText priceText = findViewById(R.id.priceText);
         double totalPrice = pizza.price();
         priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
-        PizzaManager.getInstance().addPizza(pizza);
+        PizzaOrderManager.getInstance().addPizza(pizza);
         Log.d("PizzaList", "Current pizzas: " + pizzas.toString());
         Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
         clearAllSelections();
