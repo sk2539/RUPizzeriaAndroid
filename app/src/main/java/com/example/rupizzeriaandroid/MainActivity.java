@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 /**
  * MainActivity serves as the entry point for the RU Pizzeria Android application.
  * It initializes the UI and handles button clicks to navigate between different views.
+ * @author Nithya Konduru, Dhyanashri Raman
  */
 public class MainActivity extends AppCompatActivity {
 

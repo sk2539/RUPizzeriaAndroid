@@ -35,6 +35,7 @@ import java.util.Locale;
  * OrderActivity manages the pizza ordering process in the RU Pizzeria app.
  * It provides functionality for selecting pizza styles, types, sizes, and toppings,
  * and calculates the pizza price based on the user’s choices.
+ * @author Nithya Konduru, Dhyanashri Raman
  */
 public class OrderActivity extends AppCompatActivity {
     private Spinner typeSpinner;
@@ -45,57 +46,6 @@ public class OrderActivity extends AppCompatActivity {
     private ImageView sausageLayer, pepperoniLayer, greenpepperLayer, onionLayer,
             mushroomLayer, chickenLayer, provoloneLayer, cheddarLayer,
             beefLayer, hamLayer, broccoliLayer, spinachLayer, jalapenoLayer;
-
-    /**
-     * Called when the activity is first created. Sets up UI elements, spinners,
-     * buttons, and event listeners for managing the pizza ordering process.
-     *
-     * @param savedInstanceState the saved instance state bundle.
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_order);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        typeSpinner = findViewById(R.id.chooseType);
-        String[] orderOptions = {"Select pizza style", "Chicago Pizza", "New York Pizza"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                orderOptions
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(adapter);
-        pizzaSpinner = findViewById(R.id.choosePizzaType);
-        String[] pizzaTypeOptions = {"Select pizza type", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                pizzaTypeOptions
-        );
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pizzaSpinner.setAdapter(adapter2);
-        pizzaImageView = findViewById(R.id.mainImage);
-        typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
-        pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
-        ImageButton imageButton = findViewById(R.id.homeButton);
-        imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-        ImageButton shoppingCart = findViewById(R.id.shoppingCart);
-        shoppingCart.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderActivity.this, ShoppingCartActivity.class);
-            startActivity(intent);
-        });
-        onCreate2();
-    }
 
     /**
      * Initializes topping selection chips, size radio buttons, and sets up event listeners.
@@ -437,29 +387,6 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Retrieves the selected pizza size based on the radio button selection.
-     *
-     * @return The selected size as a Size enum, or null if no size is selected.
-     */
-    private Size setSizeUI() {
-        RadioGroup radioGroupSize = findViewById(R.id.radioGroupSize);
-        int selectedId = radioGroupSize.getCheckedRadioButtonId();
-        if (selectedId != -1) {
-            RadioButton selectedButton = findViewById(selectedId);
-            String sizeText = selectedButton.getText().toString().toUpperCase();
-            switch (sizeText) {
-                case "SMALL":
-                    return Size.SMALL;
-                case "MEDIUM":
-                    return Size.MEDIUM;
-                case "LARGE":
-                    return Size.LARGE;
-            }
-        }
-        return null;
-    }
-
     ArrayList<Pizza> pizzas = new ArrayList<>();
 
     /**
@@ -666,6 +593,57 @@ public class OrderActivity extends AppCompatActivity {
                 Toast.makeText(OrderActivity.this, "Please make a selection", Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    /**
+     * Called when the activity is first created. Sets up UI elements, spinners,
+     * buttons, and event listeners for managing the pizza ordering process.
+     *
+     * @param savedInstanceState the saved instance state bundle.
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_order);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        typeSpinner = findViewById(R.id.chooseType);
+        String[] orderOptions = {"Select pizza style", "Chicago Pizza", "New York Pizza"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                orderOptions
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(adapter);
+        pizzaSpinner = findViewById(R.id.choosePizzaType);
+        String[] pizzaTypeOptions = {"Select pizza type", "Deluxe", "BBQ Chicken", "Meatzza", "Build your own"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                pizzaTypeOptions
+        );
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pizzaSpinner.setAdapter(adapter2);
+        pizzaImageView = findViewById(R.id.mainImage);
+        typeSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+        pizzaSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+        ImageButton imageButton = findViewById(R.id.homeButton);
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+        ImageButton shoppingCart = findViewById(R.id.shoppingCart);
+        shoppingCart.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderActivity.this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
+        onCreate2();
     }
 
 }

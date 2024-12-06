@@ -13,11 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DialogFragment class for displaying a popup to select pizza toppings.
+ * Provides a list of available toppings and handles user interactions for selection.
+ * @author Nithya Konduru, Dhyanashri Raman
+ */
 public class ToppingsPopup extends DialogFragment {
 
     private List<Topping> selectedToppings = new ArrayList<>();
     private ToppingAdapter adapter;
 
+    /**
+     * Called to create the view hierarchy for this fragment.
+     * Inflates the layout and initializes the RecyclerView and its adapter.
+     *
+     * @param inflater  LayoutInflater object used to inflate the fragment's view.
+     * @param container The parent view group into which the fragment's view will be added.
+     * @param savedInstanceState If non-null, this fragment is being re-created from a previous saved state.
+     * @return The created view for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.toppingspopup, container, false);
@@ -27,7 +41,6 @@ public class ToppingsPopup extends DialogFragment {
         adapter = new ToppingAdapter(getContext(), (topping, isSelected) -> {
             if (isSelected) {
                 if (selectedToppings.size() >= 7) {
-                    showMaxToppingsAlert();
                     return;
                 }
                 selectedToppings.add(topping);
@@ -38,9 +51,5 @@ public class ToppingsPopup extends DialogFragment {
         toppingsList.setAdapter(adapter);
         closeButton.setOnClickListener(v -> dismiss());
         return view;
-    }
-
-    private void showMaxToppingsAlert() {
-        ;
     }
 }

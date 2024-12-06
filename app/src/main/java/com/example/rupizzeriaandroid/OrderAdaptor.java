@@ -12,6 +12,7 @@ import java.util.ArrayList;
 /**
  * Adapter class for managing and displaying a list of orders in a ListView.
  * Provides functionality for handling order selection and removal.
+ * @author Nithya Konduru, Dhyanashri Raman
  */
 public class OrderAdaptor extends BaseAdapter {
     private Context context;

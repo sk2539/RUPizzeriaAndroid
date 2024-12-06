@@ -8,6 +8,11 @@ import android.widget.Button;
 
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A dialog fragment representing a popup menu in the application.
+ * This fragment inflates a custom layout and handles user interactions, such as closing the dialog.
+ * @author Nithya Konduru, Dhyanashri Raman
+ */
 public class MenuPopup extends DialogFragment {
 
     /**
