@@ -102,7 +102,7 @@
         android:layout_marginEnd="155dp"
         android:layout_marginBottom="2dp"
         android:backgroundTint="#974C4C"
-        android:text="Toppings"
+        android:text="@string/toppings2"
         app:layout_constraintBottom_toTopOf="@+id/orderButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"

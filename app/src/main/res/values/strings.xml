@@ -15,6 +15,7 @@
     <string name="pizza_price">Pizza price:</string>
     <string name="add_to_order">Add to Order</string>
     <string name="toppings">Toppings:</string>
+    <string name="toppings2">Toppings</string>
     <string name="left"><![CDATA[<<]]></string>
     <string name="right"><![CDATA[>>]]></string>
     <string name="sausage">Sausage</string>
@@ -31,6 +32,7 @@
     <string name="spinach">Spinach</string>
     <string name="jalapeno">Jalapeno</string>
     <string name="mycart">My Cart</string>
+    <string name="cancel">Cancel</string>
     <string name="sales_tax">Sales Tax:</string>
     <string name="order_total">Order Total:</string>
     <string name="subtotal">Subtotal:</string>
