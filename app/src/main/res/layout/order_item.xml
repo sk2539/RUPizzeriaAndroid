@@ -9,12 +9,6 @@
 
 <TableRow>
 
-    <ImageView
-        android:id="@+id/orderImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp" />
-
     <TextView
         android:id="@+id/orderNumberText"
         android:layout_width="101dp"
