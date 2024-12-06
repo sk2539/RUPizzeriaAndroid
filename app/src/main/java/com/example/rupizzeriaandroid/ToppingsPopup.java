@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,29 +40,28 @@ public class ToppingsPopup extends DialogFragment {
         Button closeButton = view.findViewById(R.id.closeButton);
         Button selectToppings = view.findViewById(R.id.selectToppings);
         toppingsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         adapter = new ToppingAdapter(getContext(), (topping, isSelected) -> {
             if (isSelected) {
-                if (selectedToppings.size() >= 7) {
-                    return;
+                if (selectedToppings.size() < 7) {
+                    selectedToppings.add(topping);
+                } else {
+                    Toast.makeText(getContext(), "You can select up to 7 toppings only.", Toast.LENGTH_SHORT).show();
                 }
-                selectedToppings.add(topping);
             } else {
                 selectedToppings.remove(topping);
             }
         });
         toppingsList.setAdapter(adapter);
-        closeButton.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onToppingsSelected(new ArrayList<>(selectedToppings));
-            }
-            dismiss();
-        });
+
+        closeButton.setOnClickListener(v -> dismiss());
         selectToppings.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onToppingsSelected(new ArrayList<>(selectedToppings));
             }
             dismiss();
         });
+
         return view;
     }
 

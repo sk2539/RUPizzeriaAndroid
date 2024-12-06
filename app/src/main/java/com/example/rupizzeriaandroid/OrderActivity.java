@@ -119,11 +119,11 @@ public class OrderActivity extends AppCompatActivity {
         toppingsPopup.setOnToppingsSelectedListener(selectedToppings -> {
             toppings.clear();
             toppings.addAll(selectedToppings);
-            updateToppingsView();
             recalculatePrice();
         });
         toppingsPopup.show(getSupportFragmentManager(), "ToppingsPopup");
     }
+
 
     private void updateToppingsView() {
         clearAllToppingsImages();
@@ -424,6 +424,7 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+
     ArrayList<Pizza> pizzas = new ArrayList<>();
 
     /**
@@ -468,19 +469,8 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
         pizza.setSize(selectedSize);
-        Crust selectedCrust = setCrustUI();
-        if (selectedCrust == null) {
-            Toast.makeText(this, "Invalid crust type.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        pizza.setCrust(selectedCrust);
-        EditText priceText = findViewById(R.id.priceText);
-        double totalPrice = pizza.price();
-        priceText.setText(String.format(Locale.getDefault(), "%.2f", totalPrice));
         PizzaOrderManager.getInstance().addPizza(pizza);
-        Log.d("PizzaList", "Current pizzas: " + pizzas.toString());
         Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
-        clearAllSelections();
         clearInputs();
         disableChips(true);
     }

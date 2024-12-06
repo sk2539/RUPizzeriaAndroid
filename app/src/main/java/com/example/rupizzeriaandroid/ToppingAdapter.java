@@ -114,6 +114,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
         holder.textView.setText(topping.toString());
         int imageResId = getToppingImageResource(topping);
         holder.imageView.setImageResource(imageResId);
+
+
         if (selectedToppings.contains(topping)) {
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.maroon));
             holder.textView.setTextColor(Color.WHITE);
@@ -121,8 +123,10 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.darkbeige));
             holder.textView.setTextColor(Color.BLACK);
         }
+
         holder.itemView.setOnClickListener(v -> {
             boolean isSelected = selectedToppings.contains(topping);
+
             if (isSelected) {
                 selectedToppings.remove(topping);
                 v.setBackgroundResource(R.color.darkbeige);
@@ -132,11 +136,14 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
                     v.setBackgroundResource(R.color.maroon);
                 } else {
                     Toast.makeText(context, "You can select up to 7 toppings only.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
             notifyItemChanged(position);
+            onToppingClickListener.onToppingClick(topping, !isSelected);
         });
     }
+
 
     /**
      * Returns the total number of toppings available.
