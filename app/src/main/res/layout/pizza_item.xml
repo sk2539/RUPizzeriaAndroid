@@ -5,6 +5,12 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <ImageView
+        android:id="@+id/pizzaImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp" />
+
     <TextView
         android:id="@+id/textViewPizzaName"
         android:layout_width="wrap_content"

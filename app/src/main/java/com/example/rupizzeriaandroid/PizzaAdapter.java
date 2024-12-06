@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,34 @@ import java.util.ArrayList;
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHolder> {
     private ArrayList<Pizza> pizzas;
     private int selectedPosition = RecyclerView.NO_POSITION;
+
+    private int getPizzaImageResource(Pizza pizza) {
+        if (pizza.toString().contains("Chicago Pizza")) {
+            if (pizza instanceof Deluxe) {
+                return R.drawable.chicagodeluxepizza;
+            } else if (pizza instanceof BBQChicken) {
+                return R.drawable.chicagobbqchicken;
+            } else if (pizza instanceof Meatzza) {
+                return R.drawable.chicagomeatzza;
+            }
+            else if (pizza instanceof BuildYourOwn) {
+                return R.drawable.buildyourownpizza;
+            }
+        }
+        else if (pizza.toString().contains("New York Pizza")) {
+            if (pizza instanceof Deluxe) {
+                return R.drawable.nydeluxe;
+            } else if (pizza instanceof BBQChicken) {
+                return R.drawable.nybbqchicken;
+            } else if (pizza instanceof Meatzza) {
+                return R.drawable.nymeattza;
+            }
+            else if (pizza instanceof BuildYourOwn) {
+                return R.drawable.buildyourownpizza;
+            }
+        }
+        return 0;
+    }
 
     /**
      * Constructor for the PizzaAdapter.
@@ -60,6 +89,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         if (pizza != null) {
             holder.nameTextView.setText(pizza.getClass().getSimpleName() + " - " + pizza.toString());
             holder.priceTextView.setText(String.format("$%.2f", pizza.price()));
+            int imageResId = getPizzaImageResource(pizza);  // Get image resource ID for the pizza
+            holder.pizzaImage.setImageResource(imageResId);
         } else {
             holder.nameTextView.setText("Unknown Pizza");
             holder.priceTextView.setText("$0.00");
@@ -124,11 +155,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
      */
     static class PizzaViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, priceTextView;
+        ImageView pizzaImage;
 
         public PizzaViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.textViewPizzaName);
             priceTextView = itemView.findViewById(R.id.textViewPizzaPrice);
+            pizzaImage = itemView.findViewById(R.id.pizzaImage);
         }
     }
 }
