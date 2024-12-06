@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,7 @@ import java.util.Set;
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingViewHolder> {
 
     private final Topping[] toppings = Topping.values();
-    private final Set<Topping> selectedToppings = new HashSet<>();
+    private static final Set<Topping> selectedToppings = new HashSet<>();
     private final Context context;
     private final OnToppingClickListener onToppingClickListener;
 
@@ -121,7 +122,19 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
             holder.textView.setTextColor(Color.BLACK);
         }
         holder.itemView.setOnClickListener(v -> {
-
+            boolean isSelected = selectedToppings.contains(topping);
+            if (isSelected) {
+                selectedToppings.remove(topping);
+                v.setBackgroundResource(R.color.darkbeige);
+            } else {
+                if (selectedToppings.size() < 7) {
+                    selectedToppings.add(topping);
+                    v.setBackgroundResource(R.color.maroon);
+                } else {
+                    Toast.makeText(context, "You can select up to 7 toppings only.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            notifyItemChanged(position);
         });
     }
 
@@ -140,7 +153,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ToppingV
      *
      * @return A set containing the selected toppings.
      */
-    public Set<Topping> getSelectedToppings() {
+    public static Set<Topping> getSelectedToppings() {
         return selectedToppings;
     }
 

@@ -37,6 +37,7 @@ public class ToppingsPopup extends DialogFragment {
         View view = inflater.inflate(R.layout.toppingspopup, container, false);
         RecyclerView toppingsList = view.findViewById(R.id.toppingsList);
         Button closeButton = view.findViewById(R.id.closeButton);
+        Button selectToppings = view.findViewById(R.id.selectToppings);
         toppingsList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ToppingAdapter(getContext(), (topping, isSelected) -> {
             if (isSelected) {
@@ -49,7 +50,29 @@ public class ToppingsPopup extends DialogFragment {
             }
         });
         toppingsList.setAdapter(adapter);
-        closeButton.setOnClickListener(v -> dismiss());
+        closeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onToppingsSelected(new ArrayList<>(selectedToppings));
+            }
+            dismiss();
+        });
+        selectToppings.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onToppingsSelected(new ArrayList<>(selectedToppings));
+            }
+            dismiss();
+        });
         return view;
     }
+
+    public interface OnToppingsSelectedListener {
+        void onToppingsSelected(List<Topping> selectedToppings);
+    }
+
+    private OnToppingsSelectedListener listener;
+
+    public void setOnToppingsSelectedListener(OnToppingsSelectedListener listener) {
+        this.listener = listener;
+    }
+
 }

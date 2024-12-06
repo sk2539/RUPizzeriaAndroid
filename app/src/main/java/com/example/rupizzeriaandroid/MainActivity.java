@@ -42,12 +42,6 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "menuDialog");
         });
 
-        Button btnShowTop = findViewById(R.id.test);
-        btnShowTop.setOnClickListener(v -> {
-            ToppingsPopup toppingsV = new ToppingsPopup();
-            toppingsV.show(getSupportFragmentManager(), "toppingView");
-        });
-
         Button btnShowOrder = findViewById(R.id.orderButton);
         btnShowOrder.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, OrderActivity.class);

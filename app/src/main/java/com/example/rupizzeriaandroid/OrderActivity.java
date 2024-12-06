@@ -42,10 +42,12 @@ public class OrderActivity extends AppCompatActivity {
     private Spinner pizzaSpinner;
     private ImageView pizzaImageView;
     ArrayList<Topping> toppings = new ArrayList<>();
+
     private int numberOfToppings = 0;
     private ImageView sausageLayer, pepperoniLayer, greenpepperLayer, onionLayer,
             mushroomLayer, chickenLayer, provoloneLayer, cheddarLayer,
             beefLayer, hamLayer, broccoliLayer, spinachLayer, jalapenoLayer;
+
 
     /**
      * Initializes topping selection chips, size radio buttons, and sets up event listeners.
@@ -53,6 +55,8 @@ public class OrderActivity extends AppCompatActivity {
     private void onCreate2() {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         chipGroup.setEnabled(false);
+        Button setToppingsButton = findViewById(R.id.setToppings);
+        setToppingsButton.setEnabled(false);
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
             chip.setOnClickListener(view -> {
@@ -87,6 +91,12 @@ public class OrderActivity extends AppCompatActivity {
         radioGroupSize.setOnCheckedChangeListener((group, checkedId) -> {
             recalculatePrice();
         });
+    }
+
+    /**
+     * Sets topping layers and button event listeners.
+     */
+    private void onCreate3() {
         sausageLayer = findViewById(R.id.sausageLayer);
         pepperoniLayer = findViewById(R.id.pepperoniLayer);
         greenpepperLayer = findViewById(R.id.greenPepperLayer);
@@ -100,7 +110,29 @@ public class OrderActivity extends AppCompatActivity {
         broccoliLayer = findViewById(R.id.broccoliLayer);
         spinachLayer = findViewById(R.id.spinachLayer);
         jalapenoLayer = findViewById(R.id.jalapenoLayer);
+        Button btnShowTop = findViewById(R.id.setToppings);
+        btnShowTop.setOnClickListener(v -> showToppingsPopup());
     }
+
+    private void showToppingsPopup() {
+        ToppingsPopup toppingsPopup = new ToppingsPopup();
+        toppingsPopup.setOnToppingsSelectedListener(selectedToppings -> {
+            toppings.clear();
+            toppings.addAll(selectedToppings);
+            updateToppingsView();
+            recalculatePrice();
+        });
+        toppingsPopup.show(getSupportFragmentManager(), "ToppingsPopup");
+    }
+
+    private void updateToppingsView() {
+        clearAllToppingsImages();
+        for (Topping topping : toppings) {
+            setImageforBYO(topping.toString());
+        }
+    }
+
+
 
     /**
      * Sets the image for the specified topping in the Build Your Own (BYO) pizza.
@@ -288,6 +320,7 @@ public class OrderActivity extends AppCompatActivity {
         clearAllToppingsImages();
         clearAllSelections();
         disableChips(false);
+        Button setToppingsButton = findViewById(R.id.setToppings);
         switch (pizzaPosition) {
             case 1:
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagodeluxepizza, R.drawable.nydeluxe, "Deep Dish", "Brooklyn",
@@ -305,12 +338,14 @@ public class OrderActivity extends AppCompatActivity {
                 pizzaImageView.setImageResource(R.drawable.buildyourownpizza);
                 crustText.setText(isChicagoStyle ? "Pan" : "Hand-tossed");
                 enableChips(true);
+                setToppingsButton.setEnabled(true);
                 break;
             default:
                 resetPizzaDisplay();
                 break;
         }
         chipGroup.setEnabled(false);
+        setToppingsButton.setEnabled(false);
     }
 
     /**
@@ -644,6 +679,7 @@ public class OrderActivity extends AppCompatActivity {
             startActivity(intent);
         });
         onCreate2();
+        onCreate3();
     }
 
 }
