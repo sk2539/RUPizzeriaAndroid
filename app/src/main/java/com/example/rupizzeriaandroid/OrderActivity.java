@@ -323,14 +323,17 @@ public class OrderActivity extends AppCompatActivity {
         Button setToppingsButton = findViewById(R.id.setToppings);
         switch (pizzaPosition) {
             case 1:
+                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagodeluxepizza, R.drawable.nydeluxe, "Deep Dish", "Brooklyn",
                         Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.ONION, Topping.MUSHROOM);
                 break;
             case 2:
+                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagobbqchicken, R.drawable.nybbqchicken, "Pan", "Thin",
                         Topping.BBQCHICKEN, Topping.GREENPEPPER, Topping.PROVOLONE, Topping.CHEDDAR);
                 break;
             case 3:
+                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagomeatzza, R.drawable.nymeattza, "Stuffed", "Hand-tossed",
                         Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.BEEF, Topping.HAM);
                 break;
@@ -345,7 +348,6 @@ public class OrderActivity extends AppCompatActivity {
                 break;
         }
         chipGroup.setEnabled(false);
-        setToppingsButton.setEnabled(false);
     }
 
     /**
