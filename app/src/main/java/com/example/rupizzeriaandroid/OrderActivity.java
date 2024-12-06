@@ -319,35 +319,35 @@ public class OrderActivity extends AppCompatActivity {
         ChipGroup chipGroup = findViewById(R.id.toppings);
         clearAllToppingsImages();
         clearAllSelections();
-        disableChips(false);
         Button setToppingsButton = findViewById(R.id.setToppings);
+        chipGroup.setEnabled(false);
+        setToppingsButton.setEnabled(false);
         switch (pizzaPosition) {
             case 1:
-                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagodeluxepizza, R.drawable.nydeluxe, "Deep Dish", "Brooklyn",
                         Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.ONION, Topping.MUSHROOM);
+                chipGroup.setEnabled(true);
                 break;
             case 2:
-                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagobbqchicken, R.drawable.nybbqchicken, "Pan", "Thin",
                         Topping.BBQCHICKEN, Topping.GREENPEPPER, Topping.PROVOLONE, Topping.CHEDDAR);
+                chipGroup.setEnabled(true);
                 break;
             case 3:
-                setToppingsButton.setEnabled(false);
                 setupPizza(isChicagoStyle, crustText, R.drawable.chicagomeatzza, R.drawable.nymeattza, "Stuffed", "Hand-tossed",
                         Topping.SAUSAGE, Topping.PEPPERONI, Topping.GREENPEPPER, Topping.BEEF, Topping.HAM);
+                chipGroup.setEnabled(true);
                 break;
             case 4:
                 pizzaImageView.setImageResource(R.drawable.buildyourownpizza);
                 crustText.setText(isChicagoStyle ? "Pan" : "Hand-tossed");
-                enableChips(true);
+                chipGroup.setEnabled(true);
                 setToppingsButton.setEnabled(true);
                 break;
             default:
                 resetPizzaDisplay();
                 break;
         }
-        chipGroup.setEnabled(false);
     }
 
     /**
