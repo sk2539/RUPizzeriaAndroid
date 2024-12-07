@@ -114,25 +114,46 @@ public class OrderActivity extends AppCompatActivity {
         btnShowTop.setOnClickListener(v -> showToppingsPopup());
     }
 
+    /**
+     * Displays a popup allowing the user to select toppings for the pizza.
+     */
     private void showToppingsPopup() {
         ToppingsPopup toppingsPopup = new ToppingsPopup();
         toppingsPopup.setOnToppingsSelectedListener(selectedToppings -> {
-            toppings.clear();
-            toppings.addAll(selectedToppings);
+            clearAllToppingsImages();
+            clearAllSelections();
+            this.toppings.clear();
+            this.toppings.addAll(selectedToppings);
+            updateToppingChips();
+            for (Topping topping : selectedToppings) {
+                setImageforBYO(topping.name());
+            }
             recalculatePrice();
         });
         toppingsPopup.show(getSupportFragmentManager(), "ToppingsPopup");
     }
 
+    /**
+     * Updates the topping chips to reflect the currently selected toppings.
+     */
+    private void updateToppingChips() {
+        ChipGroup chipGroup = findViewById(R.id.toppings);
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            Topping chipTopping = getToppingSelected(chip.getText().toString());
 
-    private void updateToppingsView() {
-        clearAllToppingsImages();
-        for (Topping topping : toppings) {
-            setImageforBYO(topping.toString());
+            if (chipTopping != null && ToppingsPopup.getSelectedToppings().contains(chipTopping)) {
+                chip.setSelected(true);
+                chip.setChipBackgroundColorResource(R.color.maroon);
+                chip.setTextColor(Color.WHITE);
+            } else {
+                chip.setSelected(false);
+                chip.setChipBackgroundColorResource(R.color.darkbeige);
+                chip.setTextColor(Color.BLACK);
+            }
         }
+        numberOfToppings = ToppingsPopup.getSelectedToppings().size();
     }
-
-
 
     /**
      * Sets the image for the specified topping in the Build Your Own (BYO) pizza.
@@ -367,7 +388,7 @@ public class OrderActivity extends AppCompatActivity {
         crustText.setText(isChicagoStyle ? chicagoCrust : nyCrust);
         for (Topping topping : toppingsToAdd) {
             selectTopping(topping);
-            toppings.add(topping);
+            ToppingsPopup.getSelectedToppings().add(topping);
         }
     }
 
@@ -411,7 +432,7 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4:
                 pizza = pizzaFactory.createBuildYourOwn();
-                pizza.setToppings(new ArrayList<>(toppings));
+                pizza.setToppings(new ArrayList<>(ToppingsPopup.getSelectedToppings()));
                 break;
             default:
                 return;
@@ -457,7 +478,7 @@ public class OrderActivity extends AppCompatActivity {
                 break;
             case 4:
                 pizza = pizzaFactory.createBuildYourOwn();
-                pizza.setToppings(new ArrayList<>(toppings));
+                pizza.setToppings(new ArrayList<>(ToppingsPopup.getSelectedToppings()));
                 break;
             default:
                 Toast.makeText(this, "Invalid pizza type selected.", Toast.LENGTH_SHORT).show();
@@ -473,6 +494,7 @@ public class OrderActivity extends AppCompatActivity {
         Toast.makeText(this, "Pizza added to order successfully!", Toast.LENGTH_SHORT).show();
         clearInputs();
         disableChips(true);
+        ToppingsPopup.getSelectedToppings().clear();
     }
 
     /**

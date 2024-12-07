@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class ToppingsPopup extends DialogFragment {
 
-    private List<Topping> selectedToppings = new ArrayList<>();
+    private static List<Topping> selectedToppings = new ArrayList<>();
     private ToppingAdapter adapter;
 
     /**
@@ -48,7 +49,8 @@ public class ToppingsPopup extends DialogFragment {
                 } else {
                     Toast.makeText(getContext(), "You can select up to 7 toppings only.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
+            }
+            else {
                 selectedToppings.remove(topping);
             }
         });
@@ -73,6 +75,10 @@ public class ToppingsPopup extends DialogFragment {
 
     public void setOnToppingsSelectedListener(OnToppingsSelectedListener listener) {
         this.listener = listener;
+    }
+
+    public static List<Topping> getSelectedToppings() {
+        return selectedToppings;
     }
 
 }
